@@ -17,5 +17,5 @@ urlpatterns = [
     path('trainer/', views.trainer, name = 'trainer-page'),
     path('trainee/', views.trainee, name = 'trainee-page'),
 
-    path('blogs/',include('blog.urls'))
+    path('blogs/',include('blogs.urls'))
 ]

@@ -4,9 +4,15 @@ from django.shortcuts import render,redirect
 from django.views import generic
 from .models import Post,Comment
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import  LoginRequiredMixin
+from django.contrib import messages
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
+class UserPostList(LoginRequiredMixin,generic.ListView):
+    template_name = 'yourposts.html'
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
 
 from .models import Post
 from .forms import CommentForm,AddPostForm
@@ -24,7 +30,7 @@ def addpost(request):
             new_post=addpost_form.save(commit=False)
             new_post.author=user
             new_post.save()
-        return redirect('post_list')
+        return redirect('userpost_list')
     else:
         addpost_form=AddPostForm()
     return render(request,template_name,{
@@ -43,11 +49,11 @@ def post_detail(request, slug):
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-
             # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
             new_comment.post = post
+            new_comment.name = request.user
             # Save the comment to the database
             new_comment.save()
     else:
@@ -57,3 +63,24 @@ def post_detail(request, slug):
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form})
+def post_update(request,slug):
+    obj= get_object_or_404(Post,slug=slug)
+    form = AddPostForm(request.POST or None, instance= obj)
+    context= {'form': form}
+    if request.method=='POST':
+        if form.is_valid():
+                        obj= form.save(commit= False)
+                        obj.save()
+                        context= {'form': form}
+        redirect('userpost_list')
+    else:
+        context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
+    return render(request, 'post_update.html', context)
+from django.http import HttpResponseRedirect
+
+
+
+def post_delete(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    post.delete()
+    return redirect('userpost_list')

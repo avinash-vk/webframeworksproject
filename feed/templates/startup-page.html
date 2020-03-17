@@ -1,0 +1,23 @@
+<navbar>
+    <hr>
+    <br>
+        navbar
+        <a href = "{% url 'logout' %}">logout</a>
+    <br>
+    <hr>
+<navbar>
+
+<h1>
+    Welcome back, {{ name }}
+</h1>
+
+<br>
+<hr>
+<br>
+
+<a href = "{% url 'newsfeed' %}">newsfeed</a>
+<a href = "{% url 'explore' %}">explore</a>
+<a href = "{% url 'dashboard' %}">dashboard</a>
+
+<br>
+<hr>

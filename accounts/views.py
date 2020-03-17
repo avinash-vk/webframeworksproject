@@ -9,11 +9,6 @@ from django.contrib.auth.models import Group
 
 from .decorators import unauthenticated_user, allowed_users
 
-@login_required(login_url='login')
-def startup(request):
-    context = {}
-    return render(request,'startup.html',context)
-
 @unauthenticated_user  
 def register(request):
     return render(request,'register.html')
@@ -57,10 +52,12 @@ def loginUser(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username = username, password = password)
-
+        
+        
         if user is not None:
             login(request,user)
             return redirect('start-page')
+            
         else:
             print("wrong password")
     context = {}

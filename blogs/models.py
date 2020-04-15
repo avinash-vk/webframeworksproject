@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Create your models here.
 from django.db import models
@@ -40,3 +41,17 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
+=======
+from django.db import models
+
+# Create your models here.
+class Blog(models.Model):
+    title = models.CharField(max_length = 255)
+    description = models.CharField(max_length = 1000)
+    author = models.CharField(max_length = 100)
+    #image_url = models.CharField(max_length = 2083)
+
+class Post(models.Model):
+    image_url = models.CharField(max_length = 2083)
+    caption = models.CharField(max_length = 255)
+>>>>>>> ef99cff9e7ad8f0fb4d1fe66578540b18f16eb55

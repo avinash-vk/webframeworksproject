@@ -5,7 +5,11 @@ import sys
 
 
 def main():
+<<<<<<< HEAD
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'takecare.settings')
+=======
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blogsite.settings')
+>>>>>>> ef99cff9e7ad8f0fb4d1fe66578540b18f16eb55
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

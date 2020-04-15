@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+{% block content %}
+    {% block searchbar %}
+        <div class="text-center">
+            <form method="POST">
+                {% csrf_token %}
+                Search:<input type="text" name = "search"></input>
+                <button type = "submit">search</button>
+            </form>
+        </div>
+        {% endblock searchbar %}
+        <!-- Footer -->
+       
+        {% block results %}
+        <div class="row">
+        <div class="col-md-8 mt-3 left ">
+        {% for person in followers %}
+        <div class="card small">
+            <div class="card-body">
+              <h5 class="card-title">{{ person.followed_to }}</h5>
+              <p class="card-text">my bio</p>
+              <br>random:{{ person.follow_exists }}<br>
+              {% if not person.follow_exists %}
+              <a href="{% url 'followSet' person.followed_to %}" class="btn btn-primary">follow</a>
+              {% else %}
+                <a href="{% url 'followSet' person.followed_to %}" class="btn btn-primary btn-danger">unfollow</a>
+            {% endif %}
+            </div>
+          </div>
+          <br>
+          <br>
+        {% endfor %}   
+        </div>
+        </div>
+        {% endblock results %}
+    
+
+{% endblock %}

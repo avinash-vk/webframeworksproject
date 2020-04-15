@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+{% block content %}
+{% block bio %}
+
+<p>hi, i am part of {{ groupname }}</p>
+
+{% endblock bio %}
+
+{% if groupname == "trainers" %}
+    
+    {% block userblogs %}
+        {% include 'yourposts.html' %}     
+    {% endblock userblogs %}
+    <div class="text-center">
+        <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a> 
+    </div> 
+
+    {% block pictures %}
+        {% include 'displaypic.html' %}
+    {% endblock pictures %}
+
+    <div class="text-center">
+        <a class="btn btn-info" href = "{% url 'addpicture' %}">Add post</a> 
+    </div> 
+
+
+    {% block workouts %}
+        {% include 'display.html' %}
+    {% endblock workouts %}
+
+    <div class="text-center">
+        <a class="btn btn-info" href = "{% url 'addworkout' %}">Add workout</a> 
+    </div> 
+
+
+{% endif %}
+
+{% block userposts %}
+{% endblock userposts %}
+
+{% endblock content %}

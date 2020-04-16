@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 
 # Create your views here.
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.views import generic
 from .models import Post,Comment
 from likes.models import Like
@@ -33,13 +35,24 @@ def addpost(request):
                                     'addpost_form':addpost_form})
 def likeSet(request,slug):
     global likelist
-    object_liked = Post.objects.get(slug=slug)
-    object_liker = User.objects.all().filter(username=request.user).first()
-    like_set = Like.objects.all().filter(post_likes__liked_by = object_liker).filter(post_likes__content_object=object_liked)
+    l=[]
+    
+    like_set = Like.objects.all()#.filter(post_likes__liked_by = request.user)#.filter(post_likes__content_object=object_liked)
+    for i in like_set:
+        if i.liked_by == request.user and i.content_object == object_liked:
+            l.append(i)
+    like_set = l
     if list(like_set)==[]:
-       object_liked.likes.create(post_likes__content_type=ContentType.objects.get_for_model(object_liked),post_likes__content_object=object_liked,post_likes__liked_by = object_liker)
+       Like.objects.create(content_type=ContentType.objects.get_for_model(object_liked),content_object=object_liked,liked_by = request.user)
     else:
-        my_obj = object_liked.likes.get(post_likes__liked_by = object_liker, post_likes__content_object=object_liked)
+        '''my_obj = object_liked.likes.get(post_likes__liked_by = object_liker, post_likes__content_object=object_liked)
+        my_obj.delete()'''
+        l = []
+        o = object_liked.likes.all()#.filter(post_likes__liked_by = request.user)#.filter(post_likes__content_object=object_liked)
+        for i in o:
+            if i.liked_by == request.user and i.content_object == object_liked:
+                l.append(i)
+        my_obj = l[0]
         my_obj.delete()
     return redirect('/blogs/'+slug)
 

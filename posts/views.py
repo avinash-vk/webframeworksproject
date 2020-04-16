@@ -65,7 +65,7 @@ def picture_comment(request, slug):
         #new_comment.body = body
         new_comment.picture = picture
         new_comment.author = user
-        new_comment.active = False
+        new_comment.active = True
             # Save the comment to the database
         new_comment.save()
         #else:

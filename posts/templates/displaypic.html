@@ -9,10 +9,9 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title">{{ picture.titlepic }}</h2>
-                    <div class="embed-responsive embed-responsive-16by9"> 
-                        <img class ="card-img-top" alt='Post'>
-                            <source src='/media/{{ picture.image.url }}'>
-                        </img>
+                    <div class="embed-responsive" > 
+                        <img class ="card-img-top" alt='Post' src='/media/{{ picture.image }}' />
+                        
                     </div> 
                     <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
                     <p class="card-text">{{picture.caption|slice:":200" }}</p>

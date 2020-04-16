@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 # Create your views here.
 from django.views import generic
 from .models import Post,Comment
+from likes.models import Like
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 
@@ -30,11 +31,27 @@ def addpost(request):
                                     'user':user,
                                     'new_post':new_post,
                                     'addpost_form':addpost_form})
+def likeSet(request,slug):
+    global likelist
+    object_liked = Post.objects.get(slug=slug)
+    object_liker = User.objects.all().filter(username=request.user).first()
+    like_set = Like.objects.all().filter(post_likes__liked_by = object_liker).filter(post_likes__content_object=object_liked)
+    if list(like_set)==[]:
+       object_liked.likes.create(post_likes__content_type=ContentType.objects.get_for_model(object_liked),post_likes__content_object=object_liked,post_likes__liked_by = object_liker)
+    else:
+        my_obj = object_liked.likes.get(post_likes__liked_by = object_liker, post_likes__content_object=object_liked)
+        my_obj.delete()
+    return redirect('/blogs/'+slug)
 
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
     currentuser=request.user;
+    alllikescount=post.likes.count();
+    alllikes=post.likes.all()
+    likelist=[]
+    for i in alllikes:
+        likelist.append(i.liked_by)
     comments = Comment.objects.all().filter(post = post)
     #comments = post.comments;
     new_comment = None
@@ -57,7 +74,10 @@ def post_detail(request, slug):
                                            'comments': comments,
                                            'currentuser':currentuser,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form})
+                                           'comment_form': comment_form,
+                                           'alllikescount':alllikescount,
+                                           'likelist':likelist,
+                                           })
 
 
 def post_update(request,slug):

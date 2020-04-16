@@ -14,7 +14,17 @@
     {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
   </div>
 </div>
+<div>
+  <!---likes --->
+  {% if currentuser not in likelist %}
+  <a href="{% url 'likeSet' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+  {% else %}
+    <a href="{% url 'likeSet' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+{% endif %}
+  <span>{{ alllikescount }}  likes </span>
 
+
+  </div>
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
         <!-- comments -->

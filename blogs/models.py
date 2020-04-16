@@ -1,9 +1,10 @@
 
 # Create your models here.
 from django.db import models
+from likes.models import Like
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
+from django.contrib.contenttypes.fields import GenericRelation
 STATUS = (
     (0,"Draft"),
     (1,"Publish")
@@ -17,7 +18,7 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-
+    likes = GenericRelation(Like,related_query_name="post_likes")
     class Meta:
         ordering = ['-created_on']
     def save(self,*args,**kwargs):

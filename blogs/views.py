@@ -34,8 +34,9 @@ def addpost(request):
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
-    #comments = Comment.objects.filter(post = post)
-    comments = post.comments.filter(active=True)
+    currentuser=request.user;
+    comments = Comment.objects.all().filter(post = post)
+    #comments = post.comments;
     new_comment = None
     # Comment posted
     if request.method == 'POST':
@@ -46,6 +47,7 @@ def post_detail(request, slug):
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
             new_comment.post = post
+            new_comment.author = currentuser
             # Save the comment to the database
             new_comment.save()
     else:
@@ -53,6 +55,7 @@ def post_detail(request, slug):
 
     return render(request, template_name, {'post': post,
                                            'comments': comments,
+                                           'currentuser':currentuser,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form})
 

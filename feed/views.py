@@ -28,13 +28,13 @@ def dashboard(request):
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
     cw=[]
-    for j in workout_list:    
-        cw += list(WComment.objects.all().filter(workout = j).filter(active = True))
+    for j in workout_list:
+        cw += list(WComment.objects.all().filter(workout = j))
     pc=[]
-    for j in picture_list:    
-        pc += list(PComment.objects.all().filter(picture = j).filter(active = True))
+    for j in picture_list:
+        pc += list(PComment.objects.all().filter(picture = j))
     context = {
-        'groupname': group , 
+        'groupname': group ,
         'object_list' : post_list,
         'workouts' : workout_list,
         'comments' : cw,
@@ -51,7 +51,7 @@ def explore(request):
     else:
         b = get_follow_set(request,False)
     context = {'followers' : b }
-    return render(request,'explore.html',context)  
+    return render(request,'explore.html',context)
 
 def get_follow_set(request,flag):
     b = []
@@ -69,7 +69,7 @@ def get_follow_set(request,flag):
         t = False
         if list(x) != []:
             t = True
-        b.append(follow_tmp(request.user,i,t)) 
+        b.append(follow_tmp(request.user,i,t))
     return b
 
 @login_required(login_url='login')
@@ -84,17 +84,17 @@ def newsfeed(request):
         p += list(Post.objects.all().filter(author = i))
         w += list(Workout.objects.all().filter(author = i))
         pic += list(Picture.objects.all().filter(author = i))
-    for j in w:    
-        cw += list(WComment.objects.all().filter(workout = j).filter(active = True))
+    for j in w:
+        cw += list(WComment.objects.all().filter(workout = j))
     for j in pic:
-        pc += list(PComment.objects.all().filter(picture = j).filter(active = True))
+        pc += list(PComment.objects.all().filter(picture = j))
     context = {
-        'obj' : p, 
+        'obj' : p,
         'workouts' : w,
         'comments' : cw,
         'pictures'  : pic,
         'piccomments' : pc,
-    }    
+    }
     return render(request,'newsfeed.html', context )
 
 
@@ -115,9 +115,9 @@ def followSet(request, username):
     to_follow = User.objects.all().filter(username=username).first()
     follow_by = User.objects.all().filter(username=request.user).first()
     follow_set = Follow.objects.all().filter(user_to = to_follow).filter(user_from = follow_by)
-     
+
     f = Follow(user_to = to_follow, user_from = follow_by)
-     
+
     if list(follow_set)==[]:
         f.save()
     else:
@@ -125,7 +125,7 @@ def followSet(request, username):
         my_obj.delete()
 
     return redirect('explore')
-        
+
 
 def test(request):
     q = get_all_followers(request)

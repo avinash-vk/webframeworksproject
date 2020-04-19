@@ -4,11 +4,11 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from django.db.models import Q
+from .forms import BioForm
 from accounts.decorators import unauthenticated_user, allowed_users
 from .models import Follow,Like
 from blogs.models import Post
-from posts.models import Picture
-from workout.models import Workout
+from accounts.models import Bio
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -26,7 +26,10 @@ def startup(request):
 def dashboard(request):
     user = request.user
     group = request.user.groups.all()[0].name
-    
+    bio= Bio.objects.filter(user=request.user)
+    if not bio==[]:
+        Bio.objects.create(user=request.user,fullname="fullname unupdated",displayimage="defaultprofilepic.png",email="email unupdated",status="status unupdated")
+        bio= Bio.objects.filter(user=request.user)
     x = 'dashboard.html'
     post_list = Post.objects.filter(author=request.user)
     workout_list = Workout.objects.filter(author=request.user)
@@ -42,7 +45,7 @@ def dashboard(request):
         for i in alllikes:
             if i.liked_by == request.user:
                 pl.append(post)
-        
+
     for j in workout_list:
         alllikes=j.likes.all()
         for i in alllikes:
@@ -53,14 +56,15 @@ def dashboard(request):
     pc=[]
     for j in picture_list:
         alllikes=j.likes.all()
-        
+
         for i in alllikes:
             if i.liked_by == request.user:
                 postlikelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
+        editable=True
     context = {
         'groupname': group ,
-        'object_list' : post_list,
+        'obj' : post_list,
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
@@ -68,9 +72,76 @@ def dashboard(request):
         'likelist' : pl,
         'postlike' : postlikelist,
         'worklike' : worklikelist,
+        'editable':editable,
+        'bio':bio
         }
     return render(request,x,context)
+def bio_update(request):
+    obj = Bio.objects.filter(user=request.user).first()
+    form = BioForm(request.POST or None, instance= obj)
+    context= {'form': form}
+    if request.method=='POST':
+        if form.is_valid():
+            obj= form.save(commit= False)
+            obj.save()
+            return redirect('dashboard')
+        else:
+            context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
+    return render(request, 'bio_update.html', context)
+def profile(request,username):
+    user = request.user
+    profileuser = User.objects.all().filter(username=username)[0]
+    bio= Bio.objects.filter(user=profileuser)
+    if not bio:
+        bio=Bio.objects.create(user=profileuser,fullname="unupdated",displayimage="defaultprofilepic.png",email="unupdated",status="unupdated")
+        bio= Bio.objects.filter(user=request.user)
+    group="trainers"
+    x = 'dashboard.html'
+    post_list = Post.objects.filter(author=profileuser)
+    workout_list = Workout.objects.filter(author=profileuser)
+    picture_list = Picture.objects.filter(author=profileuser)
+    cw=[]
+    pl = []
+    postlikelist = []
+    worklikelist = []
+    for post in post_list:
+        postlikescount=post.likes.count()
+        alllikes=post.likes.all()
+        l = []
+        for i in alllikes:
+            if i.liked_by == request.user:
+                pl.append(post)
 
+    for j in workout_list:
+        alllikes=j.likes.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                worklikelist.append(j)
+        cw += list(WComment.objects.all().filter(workout = j))
+
+    pc=[]
+    for j in picture_list:
+        alllikes=j.likes.all()
+
+        for i in alllikes:
+            if i.liked_by == request.user:
+                postlikelist.append(j)
+        pc += list(PComment.objects.all().filter(picture = j))
+        editable=False
+    context = {
+        'editable': editable,
+        'groupname': group ,
+        'obj' : post_list,
+        'workouts' : workout_list,
+        'comments' : cw,
+        'pictures' : picture_list,
+        'piccomments' : pc,
+        'likelist' : pl,
+        'postlike' : postlikelist,
+        'worklike' : worklikelist,
+        'bio':bio
+        }
+    return render(request,x,context)
 @login_required(login_url='login')
 def explore(request):
     b = []
@@ -107,7 +178,7 @@ def set_like(request,slug,type):
         object_liked = Workout.objects.get(slug=slug)
     else:
         object_liked = Picture.objects.get(slug=slug)
-    
+
     l=[]
     like_set = Like.objects.all()
     for i in like_set:
@@ -124,7 +195,7 @@ def set_like(request,slug,type):
                 l.append(i)
         my_obj = l[0]
         my_obj.delete()
-    
+
 
 
 @login_required(login_url='login')
@@ -132,7 +203,7 @@ def newsfeed(request):
     d = get_all_followers(request)
     postlikelist = []
     worklikelist = []
-    
+
     p = []
     w = []
     pic = []
@@ -156,7 +227,7 @@ def newsfeed(request):
                 worklikelist.append(j)
     for j in pic:
         alllikes=j.likes.all()
-        
+
         for i in alllikes:
             if i.liked_by == request.user:
                 postlikelist.append(j)

@@ -1,36 +1,53 @@
 {% extends 'main.html' %}
 {% block content %}
 {% block bio %}
-
-<p>hi, i am part of {{ groupname }}</p>
-
+<p>Hi, i am part of {{ groupname }}</p>
+<div>
+    <div class="col-md-12 mt-3 left">
+      <div class="card-body">
+          <div class="embed-responsive" class="col-md-4 mt-3 left" >
+              <img class ="card-img-top" height="200px" width="200px" src='/media/{{ bio.displayimage }}' />
+          </div>
+          <div class="embed-responsive" class="col-md-8 mt-3 left" >
+            <h2 class="card-title">{{ bio.fullname }}</h2>
+            <p class="card-text">{{bio.status|slice:":200" }}</p>
+            <p class="card-text">{{bio.email }}</p>
+          </div>
+        </div>
+    </div>
+</div>
+{% if editable %}
+    <a href="{% url 'bio_update' %}" class="btn btn-primary">Update Bio &rarr;</a>
+{% endif %}
 {% endblock bio %}
 
 {% if groupname == "trainers" %}
-    
-    {% block userblogs %}
-        {% include 'yourposts.html' %}     
-    {% endblock userblogs %}
-    <div class="text-center">
-        <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a> 
-    </div> 
 
+    {% block userblogs %}
+        {% include 'blog_display.html' %}
+    {% endblock userblogs %}
+    {% if user.is_authenticated and editable %}
+    <div class="text-center">
+        <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a>
+    </div>
+    {% endif %}
     {% block pictures %}
         {% include 'displaypic.html' %}
     {% endblock pictures %}
-
+    {% if user.is_authenticated and editable %}
     <div class="text-center">
-        <a class="btn btn-info" href = "{% url 'addpicture' %}">Add post</a> 
-    </div> 
-
+        <a class="btn btn-info" href = "{% url 'addpicture' %}">Add post</a>
+    </div>
+    {% endif %}
 
     {% block workouts %}
         {% include 'display.html' %}
     {% endblock workouts %}
-
+    {% if user.is_authenticated and editable %}
     <div class="text-center">
-        <a class="btn btn-info" href = "{% url 'addworkout' %}">Add workout</a> 
-    </div> 
+        <a class="btn btn-info" href = "{% url 'addworkout' %}">Add workout</a>
+    </div>
+    {% endif %}
 
 
 {% endif %}

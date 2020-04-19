@@ -29,22 +29,22 @@
                     <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
                     <p class="card-text">{{post.content|slice:":200" }}</p>
                     <div>
-                        
+                        <span class="card-text text-muted h6">{{ post.likes.count }} Likes
                     {% if post not in likelist %}
-                        
+
                         <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
                         {% else %}
                           <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                         {% endif %}
-                       
-                      
-                      
+
+</span>
+
                    </div>
                     <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More &rarr;</a>
                 </div>
             </div>
             {% endfor %}
-            
+
         </div>
         {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
     </div>

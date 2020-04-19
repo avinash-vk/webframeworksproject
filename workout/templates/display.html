@@ -16,6 +16,19 @@
                     </div> 
                     <p class="card-text text-muted h6">{{ workout.author }} | {{ workout.created_on}} </p>
                     <p class="card-text">{{workout.caption|slice:":200" }}</p>
+                    <div>
+  <!---likes --->
+                      {% if workout not in worklikelist %}
+                      <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                      {% else %}
+                      <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down ">
+                          
+                      </a>
+                    {% endif %}
+
+
+                      </div>
+
                     <div class = "list-group">
                     {% for i in comments %}
                         {% if i.workout == workout %}

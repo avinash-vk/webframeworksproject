@@ -11,19 +11,19 @@
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
     </div>
-    {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    
   </div>
 </div>
 <div>
+  <div>
   <!---likes --->
-  {% if currentuser not in likelist %}
-  <a href="{% url 'likeSet' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+  {% if post not in likelist %}
+  <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
   {% else %}
-    <a href="{% url 'likeSet' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+  <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
 {% endif %}
-  <span>{{ alllikescount }}  likes </span>
 
-
+<span> {{ alllikescount }} likes </span>
   </div>
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">

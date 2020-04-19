@@ -6,5 +6,6 @@ urlpatterns = [
     path('<slug:slug>/updateworkout/', views.workout_update, name='workout_update'),
     path('<slug:slug>/deleteworkout/', views.workout_delete, name='workout_delete'),
     path('<slug:slug>/', views.workout_comment, name='workout_comment'),
+    path('likepost/<slug:slug>',views.like_post, name = 'like_work'),
 
 ]

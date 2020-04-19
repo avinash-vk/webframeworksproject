@@ -15,6 +15,17 @@
                     </div> 
                     <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
                     <p class="card-text">{{picture.caption|slice:":200" }}</p>
+                    <div>
+  <!---likes --->
+                      {% if picture not in postlike %}
+                      <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                      {% else %}
+                      <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                    {% endif %}
+
+
+                      </div>
+
                     <div class = "list-group">
                     {% for i in piccomments %}
                         {% if i.picture == picture %}

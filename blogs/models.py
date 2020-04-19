@@ -1,10 +1,10 @@
 
 # Create your models here.
 from django.db import models
-from likes.models import Like
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.fields import GenericRelation
+from feed.models import Like
 STATUS = (
     (0,"Draft"),
     (1,"Publish")

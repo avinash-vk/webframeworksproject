@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
 from django.views import generic
 from .models import Workout, WComment
+from feed.views import set_like
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 from .forms import WorkoutForm, CommentForm
-from django.shortcuts import render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
+def like_post(request,slug):
+    set_like(request,slug,3)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def addworkout(request):
     template_name='addworkout.html'

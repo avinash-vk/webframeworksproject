@@ -9,7 +9,9 @@
     .head_text {
         color: white;
     }
-
+    .active{
+        background-color: red;
+    }
     .card {
         box-shadow: 0 16px 48px rgb(1, 11, 20);
     }
@@ -26,10 +28,23 @@
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
                     <p class="card-text">{{post.content|slice:":200" }}</p>
+                    <div>
+                        
+                    {% if post not in likelist %}
+                        
+                        <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                        {% else %}
+                          <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                        {% endif %}
+                       
+                      
+                      
+                   </div>
                     <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More &rarr;</a>
                 </div>
             </div>
             {% endfor %}
+            
         </div>
         {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
     </div>

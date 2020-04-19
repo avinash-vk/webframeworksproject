@@ -1,11 +1,11 @@
-from django.shortcuts import render,redirect
-
+from django.shortcuts import render,redirect,HttpResponseRedirect
+from feed.views import set_like
 # Create your views here.
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.views import generic
 from .models import Post,Comment
-from likes.models import Like
+from feed.models import Like
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 
@@ -33,34 +33,17 @@ def addpost(request):
                                     'user':user,
                                     'new_post':new_post,
                                     'addpost_form':addpost_form})
-def likeSet(request,slug):
-    global likelist
-    l=[]
+
+def like_post(request,slug):
+    set_like(request,slug,1)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     
-    like_set = Like.objects.all()#.filter(post_likes__liked_by = request.user)#.filter(post_likes__content_object=object_liked)
-    for i in like_set:
-        if i.liked_by == request.user and i.content_object == object_liked:
-            l.append(i)
-    like_set = l
-    if list(like_set)==[]:
-       Like.objects.create(content_type=ContentType.objects.get_for_model(object_liked),content_object=object_liked,liked_by = request.user)
-    else:
-        '''my_obj = object_liked.likes.get(post_likes__liked_by = object_liker, post_likes__content_object=object_liked)
-        my_obj.delete()'''
-        l = []
-        o = object_liked.likes.all()#.filter(post_likes__liked_by = request.user)#.filter(post_likes__content_object=object_liked)
-        for i in o:
-            if i.liked_by == request.user and i.content_object == object_liked:
-                l.append(i)
-        my_obj = l[0]
-        my_obj.delete()
-    return redirect('/blogs/'+slug)
 
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
-    currentuser=request.user;
-    alllikescount=post.likes.count();
+    currentuser=request.user
+    alllikescount=post.likes.count()
     alllikes=post.likes.all()
     likelist=[]
     for i in alllikes:

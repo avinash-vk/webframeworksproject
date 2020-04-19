@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.fields import GenericRelation
+from feed.models import Like
 
 STATUS = (
     (0,"Draft"),
@@ -16,6 +18,7 @@ class Workout(models.Model):
     author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='workout_workouts')
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    likes = GenericRelation(Like,related_query_name="workout_likes")
 
     class Meta:
         ordering = ['-created_on']

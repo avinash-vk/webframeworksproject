@@ -4,8 +4,11 @@ from .models import Picture, PComment
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 from .forms import PictureForm, CommentForm
-from django.shortcuts import render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
+from feed.views import set_like
+def like_post(request,slug):
+    set_like(request,slug,2)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def addpicture(request):
     template_name='addpicture.html'

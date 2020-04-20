@@ -32,5 +32,19 @@
         </div>
         {% endblock results %}
 
+        <br>
+        <hr>
+        <hr>
+        {% block recommend %}
+        <div>
+          
+          
+          <br>
+          <h1> RECOMMENDED: </h1>
+          {% include 'blog_display.html' %}
+          {% include 'displaypic.html' %}
+          {% include 'display.html' %}
+      </div>
+        {% endblock recommend %}
 
 {% endblock %}

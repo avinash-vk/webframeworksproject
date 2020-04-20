@@ -4,10 +4,10 @@ from .models import Picture, PComment
 # Register your models here.
 
 class PictureAdmin(admin.ModelAdmin):
-    list_display = ('titlepic', 'author', 'status', 'created_on', 'image')
+    list_display = ('title', 'author', 'status', 'created_on', 'image')
     list_filter = ("status",)
     search_fields = ['titlepic','image']
-    prepopulated_fields = {'slug': ('titlepic',)}
+    prepopulated_fields = {'slug': ('title',)}
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('author', 'body', 'picture', 'created_on', 'active')

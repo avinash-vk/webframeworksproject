@@ -5,10 +5,13 @@ from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-STATUS = (
-    (0,"Draft"),
-    (1,"Publish")
-)
+class Tag(models.Model):
+    name = models.CharField(max_length =20)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField(blank=True,null=True)
+    content_object = GenericForeignKey('content_type')
+    def __str__(self):
+        return '{} has tag {}'.format(self.content_object,self.name)
 
 class Follow(models.Model):
     user_from = models.ForeignKey(User,on_delete=models.CASCADE ,related_name = "follow_ing")
@@ -27,5 +30,6 @@ class Like(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True,null=True)
     content_object = GenericForeignKey('content_type')
+    
     def __str__(self):
         return '{} liked {}'.format(self.liked_by,self.content_object)

@@ -4,10 +4,10 @@ from .models import Workout, WComment
 # Register your models here.
 
 class WorkoutAdmin(admin.ModelAdmin):
-    list_display = ('titlevid', 'author', 'status', 'created_on')
+    list_display = ('title', 'author', 'status', 'created_on')
     list_filter = ("status",)
     search_fields = ['titlevid','videofile']
-    prepopulated_fields = {'slug': ('titlevid',)}
+    prepopulated_fields = {'slug': ('title',)}
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('author', 'body', 'workout', 'created_on', 'active')

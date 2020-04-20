@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 # Create your views here.
+from recommender import get_recommendation
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from django.db.models import Q
 from .forms import BioForm
 from accounts.decorators import unauthenticated_user, allowed_users
-from .models import Follow,Like
+from .models import Follow,Like,Tag
 from blogs.models import Post
 from accounts.models import Bio
 from workout.models import Workout, WComment
@@ -149,7 +150,29 @@ def explore(request):
         b = get_follow_set(request,True)
     else:
         b = get_follow_set(request,False)
-    context = {'followers' : b }
+   
+
+    q = Tag.objects.all()
+    l = get_recommendation(request.user)
+
+    pictures =[]
+    workouts =[]
+    obj = []
+    
+    for i in l:
+        if i.__class__ == Post:
+            obj.append(i)
+        elif i.__class__ == Workout:
+            workouts.append(i)
+        else:
+            pictures.append(i)
+    context = {
+        'followers' : b,
+        'list' : q,
+        'obj':obj,
+        'pictures':pictures,
+        'workouts':workouts,
+    }
     return render(request,'explore.html',context)
 
 def get_follow_set(request,flag):
@@ -187,6 +210,7 @@ def set_like(request,slug,type):
     like_set = l
     if list(like_set)==[]:
        Like.objects.create(content_type=ContentType.objects.get_for_model(object_liked),content_object=object_liked,liked_by = request.user)
+       
     else:
         l = []
         o = object_liked.likes.all()
@@ -195,6 +219,7 @@ def set_like(request,slug,type):
                 l.append(i)
         my_obj = l[0]
         my_obj.delete()
+        
 
 
 
@@ -283,3 +308,27 @@ def followSet(request, username):
 def test(request):
     q = get_all_followers(request)
     return HttpResponse(q)
+
+
+def tagView(request): 
+    q = Tag.objects.all()
+    l = get_recommendation(request.user)
+
+    pictures =[]
+    workouts =[]
+    obj = []
+    
+    for i in l:
+        if i.__class__ == Post:
+            obj.append(i)
+        elif i.__class__ == Workout:
+            workouts.append(i)
+        else:
+            pictures.append(i)
+    context = {
+        'list' : q,
+        'obj':obj,
+        'pictures':pictures,
+        'workouts':workouts,
+    }
+    return render(request,"tagview.html", context)

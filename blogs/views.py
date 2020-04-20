@@ -5,7 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.views import generic
 from .models import Post,Comment
-from feed.models import Like
+from feed.models import Like,Tag
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 
@@ -13,7 +13,11 @@ from django.contrib.auth.mixins import  LoginRequiredMixin
 from .models import Post
 from .forms import CommentForm,AddPostForm
 from django.shortcuts import render, get_object_or_404
-
+def addtag(post):
+    l = str(post.tagname).split(',')
+    for i in l:
+        Tag.objects.create(name = i,content_type=ContentType.objects.get_for_model(post),content_object=post)
+    
 def addpost(request):
     template_name='addpost.html'
     user=request.user
@@ -26,6 +30,7 @@ def addpost(request):
             new_post=addpost_form.save(commit=False)
             new_post.author=user
             new_post.save()
+            addtag(new_post)
         return redirect('dashboard')
     else:
         addpost_form=AddPostForm()

@@ -5,7 +5,7 @@ from django import forms
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = ('titlevid', 'videofile','caption')
+        fields = ('title', 'videofile','caption')
 
 
 class CommentForm(forms.ModelForm):

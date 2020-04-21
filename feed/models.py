@@ -20,7 +20,7 @@ class Follow(models.Model):
 
     class Meta:
         ordering = ('-created',)
-    
+
     def __str__(self):
         return "{} follows {}".format(self.user_from,self.user_to)
 
@@ -30,6 +30,15 @@ class Like(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True,null=True)
     content_object = GenericForeignKey('content_type')
-    
+
     def __str__(self):
         return '{} liked {}'.format(self.liked_by,self.content_object)
+class Save(models.Model):
+    saved_by = models.ForeignKey(User, on_delete= models.CASCADE,related_name='save')
+    created_at = models.DateTimeField(auto_now_add=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField(blank=True,null=True)
+    content_object = GenericForeignKey('content_type')
+
+    def __str__(self):
+        return '{} saved {}'.format(self.saved_by,self.content_object)

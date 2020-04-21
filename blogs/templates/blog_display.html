@@ -36,6 +36,12 @@
                         {% else %}
                           <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                         {% endif %}
+                    {% if post not in savelist %}
+
+                            <a href="{% url 'save_blog' post.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                            {% else %}
+                              <a href="{% url 'save_blog' post.slug %}" class="btn btn-primary btn-danger bg-orange fa fa-save "></a>
+                            {% endif %}
 
 </span>
 

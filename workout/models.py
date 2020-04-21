@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.fields import GenericRelation
-from feed.models import Like,Tag
+from feed.models import Like,Tag,Save
 
 STATUS = (
     (0,"Draft"),
@@ -19,6 +19,7 @@ class Workout(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     likes = GenericRelation(Like,related_query_name="workout_likes")
+    saves = GenericRelation(Save,related_query_name="workout_saves")
     tag = GenericRelation(Tag,related_query_name="tags")
     class Meta:
         ordering = ['-created_on']
@@ -43,4 +44,3 @@ class WComment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.author)
-        

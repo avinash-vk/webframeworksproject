@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
-from feed.views import set_like
+from feed.views import set_like,set_save
 # Create your views here.
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -17,7 +17,7 @@ def addtag(post):
     l = str(post.tagname).split(',')
     for i in l:
         Tag.objects.create(name = i,content_type=ContentType.objects.get_for_model(post),content_object=post)
-    
+
 def addpost(request):
     template_name='addpost.html'
     user=request.user
@@ -42,7 +42,11 @@ def addpost(request):
 def like_post(request,slug):
     set_like(request,slug,1)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+
+def save_post(request,slug):
+    set_save(request,slug,1)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 def post_detail(request, slug):
     template_name = 'post_detail.html'

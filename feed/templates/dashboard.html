@@ -20,7 +20,7 @@
     <a href="{% url 'bio_update' %}" class="btn btn-primary">Update Bio &rarr;</a>
 {% endif %}
 {% endblock bio %}
-
+<a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
 {% if groupname == "trainers" %}
 
     {% block userblogs %}
@@ -52,7 +52,5 @@
 
 {% endif %}
 
-{% block userposts %}
-{% endblock userposts %}
 
 {% endblock content %}

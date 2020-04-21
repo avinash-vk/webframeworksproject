@@ -10,7 +10,7 @@ def like_post(request,slug):
     set_like(request,slug,2)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def save_post(request,slug):
-    set_like(request,slug,2)
+    set_save(request,slug,2)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def picture_detail(request, slug):
     template_name = 'picture_detail.html'

@@ -26,7 +26,7 @@
                     {% if picture not in postsave %}
                             <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
                     {% else %}
-                              <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary btn-danger bg-orange fa fa-save "></a>
+                              <a href="{% url 'save_post' picture.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
                     {% endif %}
                   </span>
                       </div>

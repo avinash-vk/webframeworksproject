@@ -10,7 +10,7 @@ def like_post(request,slug):
     set_like(request,slug,3)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def save_post(request,slug):
-    set_like(request,slug,3)
+    set_save(request,slug,3)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def workout_detail(request, slug):
     template_name = 'workout_detail.html'

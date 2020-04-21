@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group,User
 from django.db.models import Q
 from .forms import BioForm
 from accounts.decorators import unauthenticated_user, allowed_users
-from .models import Follow,Like,Tag,Save
+from .models import Follow,Like,Tag,Saves
 from blogs.models import Post
 from accounts.models import Bio
 from workout.models import Workout, WComment
@@ -56,7 +56,7 @@ def dashboard(request):
 
     for j in workout_list:
         alllikes=j.likes.all()
-        allsaves=j.likes.all()
+        allsaves=j.saves.all()
         for i in alllikes:
             if i.liked_by == request.user:
                 worklikelist.append(j)
@@ -184,15 +184,11 @@ def explore(request):
         b = get_follow_set(request,True)
     else:
         b = get_follow_set(request,False)
-
-
     q = Tag.objects.all()
     l = get_recommendation(request.user)
-
     pictures =[]
     workouts =[]
     obj = []
-
     for i in l:
         if i.__class__ == Post:
             obj.append(i)
@@ -200,10 +196,58 @@ def explore(request):
             workouts.append(i)
         else:
             pictures.append(i)
+    pl=[]
+    ps=[]
+    for post in obj:
+            postlikescount=post.likes.count()
+            alllikes=post.likes.all()
+            allsaves=post.saves.all()
+            l = []
+            for i in alllikes:
+                if i.liked_by == request.user:
+                    pl.append(post)
+            for i in allsaves:
+                if i.saved_by == request.user:
+                    ps.append(post)
+    worklikelist=[]
+    worksavelist=[]
+    cw=[]
+    for j in workouts:
+            alllikes=j.likes.all()
+            allsaves=j.saves.all()
+            for i in alllikes:
+                if i.liked_by == request.user:
+                    worklikelist.append(j)
+            for i in allsaves:
+                if i.saved_by == request.user:
+                    worksavelist.append(j)
+            cw += list(WComment.objects.all().filter(workout = j))
+
+    pc=[]
+    postlikelist=[]
+    postsavelist=[]
+    for j in pictures:
+            alllikes=j.likes.all()
+            allsaves=j.saves.all()
+            for i in alllikes:
+                if i.liked_by == request.user:
+                    postlikelist.append(j)
+            for i in allsaves:
+                if i.saved_by == request.user:
+                    postsavelist.append(j)
+            pc += list(PComment.objects.all().filter(picture = j))
     context = {
         'followers' : b,
         'list' : q,
         'obj':obj,
+        'piccomments' : pc,
+        'comments':cw,
+        'likelist' : pl,
+        'savelist':ps,
+        'postlike' : postlikelist,
+        'postsave': postsavelist,
+        'worklike' : worklikelist,
+        'worksave' : worksavelist,
         'pictures':pictures,
         'workouts':workouts,
     }
@@ -262,13 +306,13 @@ def set_save(request,slug,type):
         object_saved = Picture.objects.get(slug=slug)
 
     l=[]
-    save_set = Save.objects.all()
+    save_set = Saves.objects.all()
     for i in save_set:
         if i.saved_by == request.user and i.content_object == object_saved:
             l.append(i)
     save_set = l
     if list(save_set)==[]:
-       Save.objects.create(content_type=ContentType.objects.get_for_model(object_saved),content_object=object_saved,saved_by = request.user)
+       Saves.objects.create(content_type=ContentType.objects.get_for_model(object_saved),content_object=object_saved,saved_by = request.user)
 
     else:
         l = []
@@ -348,7 +392,73 @@ def newsfeed(request):
 
     }
     return render(request,'newsfeed.html', context )
+def saved(request):
+    d = Saves.objects.all().filter(saved_by=request.user)
+    postlikelist = []
+    worklikelist = []
+    postsavelist=[]
+    worksavelist=[]
+    p = []
+    w = []
+    pic = []
+    cw = []
+    pc = []
+    pl = []
+    ps=[]
+    for i in d:
+        if i.content_object.__class__==Post:
+            p.append(i.content_object)
+        elif i.content_object.__class__==Workout:
+            w.append(i.content_object)
+        else:
+            pic.append(i.content_object)
+    for post in p:
+        alllikes=post.likes.all()
+        allsaves=post.saves.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                pl.append(post)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                ps.append(post)
+    for j in w:
+        alllikes=j.likes.all()
+        allsaves=j.saves.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                worklikelist.append(j)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                worksavelist.append(j)
+    for j in pic:
+        alllikes=j.likes.all()
+        allsaves=j.saves.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                postlikelist.append(j)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                postsavelist.append(j)
+        pc += list(PComment.objects.all().filter(picture = j))
+    for j in w:
+        cw += list(WComment.objects.all().filter(workout = j))
+    for j in pic:
+        pc += list(PComment.objects.all().filter(picture = j))
+    context = {
+        'obj' : p,
+        'workouts' : w,
+        'comments' : cw,
+        'pictures'  : pic,
+        'piccomments' : pc,
+        'likelist' : pl,
+        'savelist':ps,
+        'postlike' : postlikelist,
+        'postsave': postsavelist,
+        'worklike' : worklikelist,
+        'worksave' : worksavelist,
 
+    }
+    return render(request,'saved.html', context )
 
 
 class follow_tmp:

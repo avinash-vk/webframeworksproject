@@ -9,6 +9,7 @@ urlpatterns = [
     path('dashboard/',views.dashboard, name = 'dashboard'),
     path('explore/',views.explore, name = 'explore'),
     path('newsfeed/', views.newsfeed, name = 'newsfeed'),
+    path('saved/', views.saved, name = 'saved'),
     path('followSet/<username>',views.followSet,name = 'followSet'),
     path('profile/<username>',views.profile,name = 'profile'),
     path('blogs/',include('blogs.urls')),

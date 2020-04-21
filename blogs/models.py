@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.fields import GenericRelation
-from feed.models import Like,Tag,Save
+from feed.models import Like,Tag,Saves
 STATUS = (
     (0,"Draft"),
     (1,"Publish")
@@ -20,7 +20,7 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     likes = GenericRelation(Like,related_query_name="post_likes")
-    saves= GenericRelation(Save,related_query_name="post_saves")
+    saves= GenericRelation(Saves,related_query_name="post_saves")
     tagname = models.CharField(max_length=30, default = "post")
     tag = GenericRelation(Tag,related_query_name="tags")
 

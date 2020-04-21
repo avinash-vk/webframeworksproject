@@ -8,5 +8,6 @@ urlpatterns = [
     path('<slug:slug>/', views.workout_comment, name='workout_comment'),
     path('<slug:slug>/detail', views.workout_detail, name='workout_detail'),
     path('likepost/<slug:slug>',views.like_post, name = 'like_work'),
+    path('savepost/<slug:slug>',views.save_post, name = 'save_work'),
 
 ]

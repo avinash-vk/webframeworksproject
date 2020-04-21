@@ -5,9 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 from .forms import PictureForm, CommentForm
 from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
-from feed.views import set_like
+from feed.views import set_like,set_save
 def like_post(request,slug):
     set_like(request,slug,2)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def save_post(request,slug):
+    set_save(request,slug,2)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def picture_detail(request, slug):
     template_name = 'picture_detail.html'

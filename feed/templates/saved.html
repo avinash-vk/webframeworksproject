@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1>Saved Posts</h1>
+    Blogs:
+    <hr>
+    {% block blogs %}
+        {% include 'blog_display.html' %}
+    {% endblock blogs %}
+    <hr>
+    <hr>
+    Posts:
+    {% block pictures %}
+        {% include 'displaypic.html' %}
+    {% endblock pictures %}
+    <hr>
+    <hr>
+    Workouts:
+    <hr>
+    {% block workouts %}
+        {% include 'display.html' %}
+    {% endblock workouts %}
+    <hr>
+{% endblock %}

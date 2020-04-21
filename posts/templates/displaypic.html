@@ -23,6 +23,11 @@
                       {% else %}
                       <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                     {% endif %}
+                    {% if picture not in postsave %}
+                            <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                    {% else %}
+                              <a href="{% url 'save_post' picture.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                    {% endif %}
                   </span>
                       </div>
 
@@ -38,7 +43,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" name='messages' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
                                 <div class="input-group-append">
-                              
+
                                     <!--input id="submit" class="btn btn-primary" name="submit" type="submit" value="Post"-->
                                     <!--a href="{% url 'picture_comment' picture.slug  %}" class="btn btn-primary">Post &rarr;</a-->
                                     <button name="submit" value="{{ messages }}" class="btn btn-primary" type="submit" id="button-addon2">Post &rarr;</button>

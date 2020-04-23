@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for playlist in playlists %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ playlist.name }}</h2>
+                    <div class="embed-responsive" >
+                        <img class ="card-img-top" alt='Post' src='{{playlist.cover_url}}' height='200px' width='200px'/>
+                    </div>
+                    <p class="card-text text-muted h6">By {{ playlist.author }} </p>
+                    <a class="card-text" href='{{playlist.link}}'> Link for playlist</a>
+                    <a href="{% url 'save_library' playlist.playlist_id %}" class="btn btn-primary">Save to Spotify Library</a>
+
+                </div>
+            </div>
+            {% endfor %}
+            {% if editable and user.is_authenticated %}
+            <form action="{% url 'addplaylist' %}" method = "post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" name='messages' class="form-control" placeholder="Enter Playlist Link" aria-label="Enter Playlist Link" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button name="submit" value="{{ messages }}" class="btn btn-primary" type="submit" id="button-addon2">Add Playlist</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

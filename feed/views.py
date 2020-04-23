@@ -11,6 +11,7 @@ from .models import Follow,Like,Tag,Saves
 from blogs.models import Post
 from accounts.models import Bio
 from accounts.forms import ProfileForm
+from spotify.models import Playlist
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -38,6 +39,7 @@ def dashboard(request):
     post_list = Post.objects.filter(author=request.user)
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
+    playlist_list = Playlist.objects.filter(author=request.user)
     cw=[]
     pl = []
     ps=[]
@@ -80,6 +82,11 @@ def dashboard(request):
         pc += list(PComment.objects.all().filter(picture = j))
     
     editable=True
+    follow=False
+    followers = str(Follow.objects.filter(user_to = user).count())
+    following = str(Follow.objects.filter(user_from = user).count())
+   
+    
 
     context = {
         'groupname': group,
@@ -87,6 +94,7 @@ def dashboard(request):
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
+        'playlists':playlist_list,
         'piccomments' : pc,
         'likelist' : pl,
         'savelist': ps,
@@ -95,7 +103,10 @@ def dashboard(request):
         'worklike' : worklikelist,
         'worksave' : worksavelist,
         'editable': editable,
-        'bio': bio
+        'bio': bio,
+        'follow': follow,
+        'followers': followers,
+        'following': following,
         }
     return render(request,x,context)
 
@@ -130,6 +141,7 @@ def profile(request,username):
     post_list = Post.objects.filter(author=profileuser)
     workout_list = Workout.objects.filter(author=profileuser)
     picture_list = Picture.objects.filter(author=profileuser)
+    playlist_list = Playlist.objects.filter(author=profileuser)
     cw=[]
     pl = []
     ps=[]
@@ -163,7 +175,7 @@ def profile(request,username):
     pc=[]
     for j in picture_list:
         alllikes=j.likes.all()
-        allsaves=j.likes.all()
+        allsaves=j.saves.all()
         for i in alllikes:
             if i.liked_by == request.user:
                 postlikelist.append(j)
@@ -178,7 +190,9 @@ def profile(request,username):
         follow=False
     else:
         follow=True  
-    
+    followers = str(Follow.objects.filter(user_to = user).count())
+    following = str(Follow.objects.filter(user_from = user).count())
+   
     context = {
         'editable': editable,
         'groupname': group ,
@@ -186,6 +200,7 @@ def profile(request,username):
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
+        'playlists':playlist_list,
         'piccomments' : pc,
         'likelist' : pl,
         'savelist':ps,
@@ -194,7 +209,9 @@ def profile(request,username):
         'worklike' : worklikelist,
         'worksave' :worksavelist,
         'bio':bio,
-        'follow' : follow
+        'follow' : follow,
+        'followers': followers,
+        'following': following,
         }
     return render(request,x,context)
 
@@ -220,43 +237,47 @@ def explore(request):
     pl=[]
     ps=[]
     for post in obj:
-            postlikescount=post.likes.count()
-            alllikes=post.likes.all()
-            allsaves=post.saves.all()
-            l = []
-            for i in alllikes:
-                if i.liked_by == request.user:
-                    pl.append(post)
-            for i in allsaves:
-                if i.saved_by == request.user:
-                    ps.append(post)
+        postlikescount=post.likes.count()
+        alllikes=post.likes.all()
+        allsaves=post.saves.all()
+        l = []
+        for i in alllikes:
+            if i.liked_by == request.user:
+                pl.append(post)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                ps.append(post)
+    
     worklikelist=[]
     worksavelist=[]
     cw=[]
     for j in workouts:
-            alllikes=j.likes.all()
-            allsaves=j.saves.all()
-            for i in alllikes:
-                if i.liked_by == request.user:
-                    worklikelist.append(j)
-            for i in allsaves:
-                if i.saved_by == request.user:
-                    worksavelist.append(j)
-            cw += list(WComment.objects.all().filter(workout = j))
-
+        alllikes=j.likes.all()
+        allsaves=j.saves.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                worklikelist.append(j)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                worksavelist.append(j)
+        cw += list(WComment.objects.all().filter(workout = j))
+    
     pc=[]
     postlikelist=[]
     postsavelist=[]
     for j in pictures:
-            alllikes=j.likes.all()
-            allsaves=j.saves.all()
-            for i in alllikes:
-                if i.liked_by == request.user:
-                    postlikelist.append(j)
-            for i in allsaves:
-                if i.saved_by == request.user:
-                    postsavelist.append(j)
-            pc += list(PComment.objects.all().filter(picture = j))
+        alllikes=j.likes.all()
+        allsaves=j.saves.all()
+        for i in alllikes:
+            if i.liked_by == request.user:
+                postlikelist.append(j)
+        for i in allsaves:
+            if i.saved_by == request.user:
+                postsavelist.append(j)
+        pc += list(PComment.objects.all().filter(picture = j))        
+
+    editable=False
+        
     context = {
         'followers' : b,
         'list' : q,

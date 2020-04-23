@@ -5,7 +5,6 @@ from . import views
 
 urlpatterns = [
     path('',views.startup, name = 'start-page'),
-
     path('dashboard/',views.dashboard, name = 'dashboard'),
     path('explore/',views.explore, name = 'explore'),
     path('newsfeed/', views.newsfeed, name = 'newsfeed'),
@@ -15,6 +14,7 @@ urlpatterns = [
     path('blogs/',include('blogs.urls')),
     path('workout/',include('workout.urls')),
     path('picture/',include('posts.urls')),
+    path('spotify/',include('spotify.urls')),
     path('test/', views.test),
     path('bio_update/',views.bio_update,name='bio_update'),
     path('tags/',views.tagView,name = 'random_tagview'),

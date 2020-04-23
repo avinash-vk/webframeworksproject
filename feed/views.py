@@ -5,15 +5,17 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from django.db.models import Q
-from .forms import BioForm
+#from .forms import BioForm
 from accounts.decorators import unauthenticated_user, allowed_users
 from .models import Follow,Like,Tag,Saves
 from blogs.models import Post
 from accounts.models import Bio
+from accounts.forms import ProfileForm
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+
 # Create your views here.
 current_search = []
 @login_required(login_url='login')
@@ -27,11 +29,12 @@ def startup(request):
 def dashboard(request):
     user = request.user
     group = request.user.groups.all()[0].name
-    bio= Bio.objects.filter(user=request.user)
-    if not bio==[]:
-        Bio.objects.create(user=request.user,fullname="fullname unupdated",displayimage="defaultprofilepic.png",email="email unupdated",status="status unupdated")
-        bio= Bio.objects.filter(user=request.user)
+    bio = Bio.objects.filter(user=request.user)
+    if not bio:
+        Bio.objects.create(user=request.user,firstname="firstname unupdated",lastname="lastname unupdated",displayimage="defaultprofilepic.png",status="")
+        bio=Bio.objects.filter(user=request.user)
     x = 'dashboard.html'
+    
     post_list = Post.objects.filter(author=request.user)
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
@@ -42,11 +45,10 @@ def dashboard(request):
     postsavelist=[]
     worklikelist = []
     worksavelist =[]
+
     for post in post_list:
-        postlikescount=post.likes.count()
         alllikes=post.likes.all()
         allsaves=post.saves.all()
-        l = []
         for i in alllikes:
             if i.liked_by == request.user:
                 pl.append(post)
@@ -76,45 +78,55 @@ def dashboard(request):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
-        editable=True
+    
+    editable=True
+
     context = {
-        'groupname': group ,
+        'groupname': group,
         'obj' : post_list,
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
         'piccomments' : pc,
         'likelist' : pl,
-        'savelist':ps,
+        'savelist': ps,
         'postlike' : postlikelist,
         'postsave' : postsavelist,
         'worklike' : worklikelist,
         'worksave' : worksavelist,
-        'editable':editable,
-        'bio':bio
+        'editable': editable,
+        'bio': bio
         }
     return render(request,x,context)
+
 def bio_update(request):
     obj = Bio.objects.filter(user=request.user).first()
-    form = BioForm(request.POST or None, instance= obj)
+    form = ProfileForm(request.POST or None, request.FILES or None, instance= obj)
     context= {'form': form}
     if request.method=='POST':
+        form = ProfileForm(request.POST or None, request.FILES or None, instance= obj)
         if form.is_valid():
-            obj= form.save(commit= False)
+            obj = form.save(commit = False)
+            #ige = form.cleaned_data.get("image")
+            #obj.displayimage = ige
+            obj.user = request.user
+            #obj.displayimage = request.FILES['displayimage']
             obj.save()
-            return redirect('dashboard')
-        else:
-            context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
-    return render(request, 'bio_update.html', context)
+        return redirect('dashboard')
+    else:
+        context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
+    return render(request, 'bio_update.html', context)  
+
 def profile(request,username):
     user = request.user
     profileuser = User.objects.all().filter(username=username)[0]
     bio= Bio.objects.filter(user=profileuser)
     if not bio:
-        bio=Bio.objects.create(user=profileuser,fullname="unupdated",displayimage="defaultprofilepic.png",email="unupdated",status="unupdated")
-        bio= Bio.objects.filter(user=request.user)
+        Bio.objects.create(user=profileuser,firstname="unupdated",lastname="unupdated",displayimage="defaultprofilepic.png",status="")
+        bio= Bio.objects.filter(user=profileuser)
     group="trainers"
     x = 'dashboard.html'
+
     post_list = Post.objects.filter(author=profileuser)
     workout_list = Workout.objects.filter(author=profileuser)
     picture_list = Picture.objects.filter(author=profileuser)
@@ -159,7 +171,14 @@ def profile(request,username):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
-        editable=False
+    
+    editable=False
+    my_obj = Follow.objects.filter(user_to = profileuser,user_from = user).first()        
+    if not my_obj:
+        follow=False
+    else:
+        follow=True  
+    
     context = {
         'editable': editable,
         'groupname': group ,
@@ -174,9 +193,11 @@ def profile(request,username):
         'postsave' : postsavelist,
         'worklike' : worklikelist,
         'worksave' :worksavelist,
-        'bio':bio
+        'bio':bio,
+        'follow' : follow
         }
     return render(request,x,context)
+
 @login_required(login_url='login')
 def explore(request):
     b = []
@@ -272,6 +293,7 @@ def get_follow_set(request,flag):
         b.append(follow_tmp(request.user,i,t))
     return b
 
+
 def set_like(request,slug,type):
     if type==1:
         object_liked = Post.objects.get(slug=slug)
@@ -297,6 +319,8 @@ def set_like(request,slug,type):
                 l.append(i)
         my_obj = l[0]
         my_obj.delete()
+
+
 def set_save(request,slug,type):
     if type==1:
         object_saved = Post.objects.get(slug=slug)
@@ -322,9 +346,6 @@ def set_save(request,slug,type):
                 l.append(i)
         my_obj = l[0]
         my_obj.delete()
-
-
-
 
 
 @login_required(login_url='login')
@@ -377,6 +398,8 @@ def newsfeed(request):
         cw += list(WComment.objects.all().filter(workout = j))
     for j in pic:
         pc += list(PComment.objects.all().filter(picture = j))
+    
+    follow=True
     context = {
         'obj' : p,
         'workouts' : w,
@@ -389,9 +412,11 @@ def newsfeed(request):
         'postsave': postsavelist,
         'worklike' : worklikelist,
         'worksave' : worksavelist,
-
+        'follow' : follow
     }
     return render(request,'newsfeed.html', context )
+
+
 def saved(request):
     d = Saves.objects.all().filter(saved_by=request.user)
     postlikelist = []
@@ -405,6 +430,7 @@ def saved(request):
     pc = []
     pl = []
     ps=[]
+
     for i in d:
         if i.content_object.__class__==Post:
             p.append(i.content_object)
@@ -412,6 +438,7 @@ def saved(request):
             w.append(i.content_object)
         else:
             pic.append(i.content_object)
+
     for post in p:
         alllikes=post.likes.all()
         allsaves=post.saves.all()
@@ -421,6 +448,7 @@ def saved(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
+
     for j in w:
         alllikes=j.likes.all()
         allsaves=j.saves.all()
@@ -430,6 +458,7 @@ def saved(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 worksavelist.append(j)
+
     for j in pic:
         alllikes=j.likes.all()
         allsaves=j.saves.all()
@@ -440,10 +469,12 @@ def saved(request):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
+    
     for j in w:
         cw += list(WComment.objects.all().filter(workout = j))
     for j in pic:
         pc += list(PComment.objects.all().filter(picture = j))
+    
     context = {
         'obj' : p,
         'workouts' : w,
@@ -456,7 +487,6 @@ def saved(request):
         'postsave': postsavelist,
         'worklike' : worklikelist,
         'worksave' : worksavelist,
-
     }
     return render(request,'saved.html', context )
 
@@ -467,12 +497,14 @@ class follow_tmp:
         self.followed_to = person
         self.follow_exists = t
 
+
 def get_all_followers(request):
     q  = Follow.objects.all().filter(user_from = request.user)
     d = []
     for i in q:
         d.append(i.user_to)
     return d
+
 
 def followSet(request, username):
     to_follow = User.objects.all().filter(username=username).first()

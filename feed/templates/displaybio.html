@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for i in bio %} 
+
+<div class="container"> 
+<div class="col-10">    		
+<div class="col-md-8">
+    <div class="card profile-card-3">
+        <div class="card-body pt-4">
+            <div class="col-md-4 col-sm-20 text-center">
+            <div class="profile-thumb-block">
+            {% if i.displayimage %}    
+            <img style="border-radius:50%;" height="100px" width="100px" src='/media/{{ i.displayimage }}' alt="profile-image" class="profile"/>
+            {% else %}    
+            <img style="border-radius:50%;" height="100px" width="100px" src='/media/defaultprofilepic.png' alt="profile-image" class="profile"/>
+            {% endif %}
+            </div>
+            <h3 class="card-title text-center">{{ i.firstname }} {{i.lastname}}</h3>
+            </div>
+            <div class="col-md-4 col-sm-20 text-center">
+                <p class="card-text">{{ i.status|slice:":200" }}</p>                  
+            </div>
+            <hr>
+            <div class="col-md-4 col-sm-4 text-center">
+                <h4><strong>{{ count|slugify }}</strong></h4>                    
+                <p><small>Followers</small></p>
+            </div>    
+        </div>
+    </div>
+</div>    
+</div>
+</div>
+<!--div class="container">
+<div class="col-md-12 mt-3 left">
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">{{ i.firstname }} {{i.lastname}}</h2>
+        <div class="embed-responsive"> 
+            <img class ="card-img-top" alt='bio' height="200px" width="75px" src='/media/{{ i.displayimage }}' />
+        </div>
+        <p class="card-text">{{i.status|slice:":200" }}</p>
+    </div>
+</div>
+</div>
+</div-->
+{% endfor %}
+{% endblock content %}
+                    

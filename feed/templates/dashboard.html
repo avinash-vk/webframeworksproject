@@ -1,26 +1,19 @@
 {% extends 'main.html' %}
 {% block content %}
-{% block bio %}
-<p>Hi, i am part of {{ groupname }}</p>
-<div>
-    <div class="col-md-12 mt-3 left">
-      <div class="card-body">
-          <div class="embed-responsive" class="col-md-4 mt-3 left" >
-              <img class ="card-img-top" height="200px" width="200px" src='/media/{{ bio.displayimage }}' />
-          </div>
-          <div class="embed-responsive" class="col-md-8 mt-3 left" >
-            <h2 class="card-title">{{ bio.fullname }}</h2>
-            <p class="card-text">{{bio.status|slice:":200" }}</p>
-            <p class="card-text">{{bio.email }}</p>
-          </div>
-        </div>
+
+    {% block bio %}
+        <p>hi, i am part of {{ groupname }}</p>
+        {% include 'displaybio.html' %}
+    {% endblock bio %}
+    
+    {% if editable %}
+    <div class="text-center">
+        <a href="{% url 'bio_update' %}" class="btn btn-primary">Update Bio </a>
     </div>
-</div>
-{% if editable %}
-    <a href="{% url 'bio_update' %}" class="btn btn-primary">Update Bio &rarr;</a>
-{% endif %}
-{% endblock bio %}
-<a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
+    {% endif %}
+    <a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
+    
+
 {% if groupname == "trainers" %}
 
     {% block userblogs %}
@@ -31,6 +24,7 @@
         <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a>
     </div>
     {% endif %}
+
     {% block pictures %}
         {% include 'displaypic.html' %}
     {% endblock pictures %}

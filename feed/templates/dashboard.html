@@ -50,8 +50,9 @@
         <a class="btn btn-info" href = "{% url 'addworkout' %}">Add workout</a>
     </div>
     {% endif %}
-
-
+    {% block userplaylist %}
+        {% include 'displayplaylist.html' %}
+    {% endblock userplaylist %}
 {% endif %}
 
 

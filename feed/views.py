@@ -10,6 +10,7 @@ from accounts.decorators import unauthenticated_user, allowed_users
 from .models import Follow,Like,Tag,Saves
 from blogs.models import Post
 from accounts.models import Bio
+from spotify.models import Playlist
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -35,6 +36,7 @@ def dashboard(request):
     post_list = Post.objects.filter(author=request.user)
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
+    playlist_list = Playlist.objects.filter(author=request.user)
     cw=[]
     pl = []
     ps=[]
@@ -83,6 +85,7 @@ def dashboard(request):
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
+        'playlists':playlist_list,
         'piccomments' : pc,
         'likelist' : pl,
         'savelist':ps,
@@ -118,6 +121,7 @@ def profile(request,username):
     post_list = Post.objects.filter(author=profileuser)
     workout_list = Workout.objects.filter(author=profileuser)
     picture_list = Picture.objects.filter(author=profileuser)
+    playlist_list = Playlist.objects.filter(author=profileuser)
     cw=[]
     pl = []
     ps=[]
@@ -167,6 +171,7 @@ def profile(request,username):
         'workouts' : workout_list,
         'comments' : cw,
         'pictures' : picture_list,
+        'playlists':playlist_list,
         'piccomments' : pc,
         'likelist' : pl,
         'savelist':ps,

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+	</title>
+</head>
+<body>
+	{% block content %}
+	{% if not signed_in %}
+		<a href = "{{ auth_url }}"> Sign in to google to view your google fit data</a>
+	
+	{% else %}
+	<ul>
+		your step count : {{ step_count }} steps <br>
+		calories burnt today : {{ calories }} calories <br>
+		distance moved today: {{ distance }} metres <br>
+		your height : {{ height }} cm <br>
+		your weight : {{ weight }} kgs
+	</ul>
+		<br>
+		<br>
+		<a href = "{% url 'googlelogout' %}"> Logout from google</a>
+	{% endif %}
+	{% endblock content %}
+</body>
+</html>

@@ -155,7 +155,7 @@ def profile(request,username):
     pc=[]
     for j in picture_list:
         alllikes=j.likes.all()
-        allsaves=j.likes.all()
+        allsaves=j.saves.all()
         for i in alllikes:
             if i.liked_by == request.user:
                 postlikelist.append(j)

@@ -69,7 +69,7 @@ def addworkout(request):
 
 def workout_update(request,slug):
     obj = get_object_or_404(Workout,slug=slug)
-    form = WorkoutForm(request.POST or None, instance= obj)
+    form = WorkoutForm(request.POST or None, request.Files or None, instance= obj)
     context= {'form': form}
     if request.method=='POST':
         if form.is_valid():

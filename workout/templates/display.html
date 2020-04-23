@@ -17,44 +17,38 @@
                     <p class="card-text text-muted h6">{{ workout.author }} | {{ workout.created_on}} </p>
                     <p class="card-text">{{workout.caption|slice:":200" }}</p>
                     <div>
-  <!---likes --->
-  <span class="card-text text-muted h6">{{ workout.likes.count }} Likes
-                      {% if workout not in worklike %}
-                      <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
-                      {% else %}
-                      <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down ">
-
-                      </a>
-                    {% endif %}
-                    {% if workout not in worksave %}
-
-                            <a href="{% url 'save_work' workout.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                        <span class="card-text text-muted h6">{{ workout.likes.count }} Likes
+                        
+                            {% if workout not in worklike %}
+                                <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
                             {% else %}
-                              <a href="{% url 'save_work' workout.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                                <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                             {% endif %}
-
-                  </span>
-                      </div>
+                        
+                            {% if workout not in worksave %}
+                                <a href="{% url 'save_work' workout.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                            {% else %}
+                                <a href="{% url 'save_work' workout.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                            {% endif %}
+                        
+                        </span>
                     </div>
-                     <a href="{% url 'workout_detail' workout.slug %}" class="btn btn-primary">Show More &rarr;</a>
-                
-                    {% if user.is_authenticated and user == workout.author %}
-                        <a href="{% url 'workout_update' workout.slug  %}" class="btn btn-primary">Update &rarr;</a>
-                        <a href="{% url 'workout_delete' workout.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete &rarr;</a>
-                    {% else %}
-                        <form action="{% url 'workout_comment' workout.slug  %}" method = "post">
-                            {% csrf_token %}
-                            <div class="input-group mb-3">
-                                <input type="text" name='message' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
-                                <div class="input-group-append">
-                                    <!--input id="submit" class="btn btn-primary" name="submit" type="submit" value="Post"-->
-                                    <!--a href="{% url 'workout_comment' workout.slug  %}" class="btn btn-primary">Post &rarr;</a-->
-                                    <button name="submit" value="{{ message }}" class="btn btn-primary" type="submit" id="button-addon2">Post &rarr;</button>
-                                </div>
-                            </div>
-                        </form>
-                    {% endif %}
                 </div>
+                <a href="{% url 'workout_detail' workout.slug %}" class="btn btn-primary">Show More &rarr;</a>
+                {% if user.is_authenticated and user == workout.author %}
+                    <a href="{% url 'workout_update' workout.slug  %}" class="btn btn-primary">Update &rarr;</a>
+                    <a href="{% url 'workout_delete' workout.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete &rarr;</a>
+                {% elif follow %}
+                    <form action="{% url 'workout_comment' workout.slug  %}" method = "post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" name='message' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button name="submit" value="{{ message }}" class="btn btn-primary" type="submit" id="button-addon2">Post &rarr;</button>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

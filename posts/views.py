@@ -69,7 +69,7 @@ def addpicture(request):
 
 def picture_update(request,slug):
     obj = get_object_or_404(Picture,slug=slug)
-    form = PictureForm(request.POST or None, instance= obj)
+    form = PictureForm(request.POST or None, request.FILES or None, instance= obj)
     context= {'form': form}
     if request.method=='POST':
         if form.is_valid():

@@ -17,5 +17,6 @@ urlpatterns = [
     path('picture/',include('posts.urls')),
     path('test/', views.test),
     path('bio_update/',views.bio_update,name='bio_update'),
-    path('tags/',views.tagView,name = 'random_tagview')
+    path('tags/',views.tagView,name = 'random_tagview'),
+    path('fit/',include('fit_data.urls')),
 ]

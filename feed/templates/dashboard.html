@@ -11,8 +11,10 @@
         <a href="{% url 'bio_update' %}" class="btn btn-primary">Update Bio </a>
     </div>
     {% endif %}
+
+    {% if user.is_authenticated and editable %}
     <a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
-    
+    {% endif %}
 
 {% if groupname == "trainers" %}
 

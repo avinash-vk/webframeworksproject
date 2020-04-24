@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 
 class Playlist(models.Model):
 
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='playlist_author')
     updated_on = models.DateTimeField(auto_now= True)
     link = models.TextField()

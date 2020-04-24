@@ -37,6 +37,7 @@ def add_playlist(request):
         new_playlist.save()
     return redirect('dashboard')
 def save_library(request,playlist_id):
+    username = "1qvw6ha3tuv6icx9k78c7g5d3"
     playlist=get_object_or_404(Playlist, playlist_id=playlist_id)
     token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
     if token:

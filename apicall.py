@@ -13,6 +13,7 @@ api_url_base = 'https://api.spotify.com/v1/playlists/'
 playlist_link='https://open.spotify.com/playlist/4eHCyJ3tMT4m4oaMHJ3b9E?si=IUJx1HxwQKKif5TRtXcRtw'
 l=playlist_link.split('/')[4].split('?')[0]
 if api_token:
+    print("here",api_token)
     headers = {'Content-Type': 'application/json',
            'Authorization': 'Bearer {0}'.format(api_token)}
     api_url = api_url_base+l

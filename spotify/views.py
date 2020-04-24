@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Playlist
+from .models import Playlist,Spotify_user
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 import json
@@ -9,14 +9,18 @@ import spotipy
 import spotipy.util as util
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render,redirect,HttpResponseRedirect
-client_id='c0d2821e26fd468db7d04420ef7e0554'
-client_secret='cf5d6bfebe414d659eaefebf54e79682'
-scope = 'playlist-modify-public'
-redirect_uri='http://127.0.0.1:8000/'
-username="xxxxxx"
+client_id='c21ec6aec1ae48c981dd6318b70784f1'
+client_secret='e5573b8d5f354854ad3c2b42a7d9ad9c'
+
+redirect_uri='http://127.0.0.1:8080/'
+uri2 = 'http://127.0.0.1:8000/'
+
+scopes = 'playlist-modify-public user-read-private'
 api_url_base = 'https://api.spotify.com/v1/playlists/'
 def add_playlist(request):
-    api_token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
+    x = request.user.spotify_user.all()[0]
+    username = x.spotify_id
+    api_token = util.prompt_for_user_token(username, scopes,client_id,client_secret,redirect_uri)
     new_playlist = None
     if request.method == 'POST':
         linkvar=request.POST.get('messages')
@@ -37,9 +41,10 @@ def add_playlist(request):
         new_playlist.save()
     return redirect('dashboard')
 def save_library(request,playlist_id):
-    username = "1qvw6ha3tuv6icx9k78c7g5d3"
+    user = get_object_or_404(Spotify_user, user=request.user)
+    username=user.spotify_id
     playlist=get_object_or_404(Playlist, playlist_id=playlist_id)
-    token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
+    token = util.prompt_for_user_token(username, scopes,client_id,client_secret,redirect_uri)
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.user_playlist_follow_playlist(playlist.owner_id,playlist.playlist_id)

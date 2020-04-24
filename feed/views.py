@@ -11,7 +11,7 @@ from .models import Follow,Like,Tag,Saves
 from blogs.models import Post
 from accounts.models import Bio
 from accounts.forms import ProfileForm
-from spotify.models import Playlist
+from spotify.models import Playlist,Spotify_user
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -40,6 +40,9 @@ def dashboard(request):
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
     playlist_list = Playlist.objects.filter(author=request.user)
+    isSpotifyuser = True
+    if list(user.spotify_user.all()) == []:
+        isSpotifyuser = False
     cw=[]
     pl = []
     ps=[]
@@ -107,6 +110,7 @@ def dashboard(request):
         'follow': follow,
         'followers': followers,
         'following': following,
+        'spotifyUser' : isSpotifyuser,
         }
     return render(request,x,context)
 
@@ -570,3 +574,9 @@ def tagView(request):
         'workouts':workouts,
     }
     return render(request,"tagview.html", context)
+
+def createSpotifyUser(request):
+    if request.POST:
+        x = request.POST['submit']
+        Spotify_user.objects.create(user = request.user, spotify_id = x)
+    return redirect('dashboard')

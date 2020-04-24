@@ -12,7 +12,14 @@ class Playlist(models.Model):
     cover_url=models.TextField()
     playlist_id=models.CharField(max_length=500)
     owner_id=models.CharField(max_length=500)
+    
     class Meta:
         ordering = ['-created_on']
     def save(self,*args,**kwargs):
         super(Playlist,self).save(*args,**kwargs)
+
+
+class Spotify_user(models.Model):
+    user  = models.ForeignKey(User,on_delete= models.CASCADE,related_name='spotify_user')
+    spotify_id = models.CharField(max_length=500)
+

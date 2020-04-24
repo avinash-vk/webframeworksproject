@@ -216,6 +216,7 @@ def profile(request,username):
         'follow' : follow,
         'followers': followers,
         'following': following,
+        'spotifyUser':True,
         }
     return render(request,x,context)
 

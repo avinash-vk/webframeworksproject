@@ -40,7 +40,7 @@ def add_playlist(request):
     return redirect('dashboard')
 def save_library(request,playlist_id):
     username = request.user.spotify_user.all()[0].spotify_id
-    playlist=get_object_or_404(Playlist, playlist_id=playlist_id,author = request.user)
+    playlist=get_object_or_404(Playlist, playlist_id=playlist_id)
     token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
     if token:
         sp = spotipy.Spotify(auth=token)

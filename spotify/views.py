@@ -14,11 +14,12 @@ client_secret='e5573b8d5f354854ad3c2b42a7d9ad9c'
 
 redirect_uri='http://127.0.0.1:8080/'
 uri2 = 'http://127.0.0.1:8000/'
-scope = 'playlist-modify-public'
+
+scopes = 'playlist-modify-public user-read-private'
 api_url_base = 'https://api.spotify.com/v1/playlists/'
 def add_playlist(request):
-    username = request.user.spotify_user.all()[0].spotify_id
-    api_token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
+    
+    api_token = util.prompt_for_user_token(username, scopes,client_id,client_secret,redirect_uri)
     new_playlist = None
     if request.method == 'POST':
         linkvar=request.POST.get('messages')
@@ -39,9 +40,10 @@ def add_playlist(request):
         new_playlist.save()
     return redirect('dashboard')
 def save_library(request,playlist_id):
-    username = request.user.spotify_user.all()[0].spotify_id
-    playlist=get_object_or_404(Playlist, playlist_id=playlist_id)
-    token = util.prompt_for_user_token(username, scope,client_id,client_secret,redirect_uri)
+   
+    username = "1qvw6ha3tuv6icx9k78c7g5d3"
+    playlist=get_object_or_404(Playlist, playlist_id=playlist_id,author = request.user)
+    token = util.prompt_for_user_token(username, scopes,client_id,client_secret,redirect_uri)
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.user_playlist_follow_playlist(playlist.owner_id,playlist.playlist_id)

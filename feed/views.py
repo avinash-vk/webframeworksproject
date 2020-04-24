@@ -578,6 +578,7 @@ def tagView(request):
 
 def createSpotifyUser(request):
     if request.POST:
-        x = request.POST['submit']
+        x = request.POST['idbro']
+        
         Spotify_user.objects.create(user = request.user, spotify_id = x)
     return redirect('dashboard')

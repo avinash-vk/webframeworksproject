@@ -51,7 +51,7 @@
             <form action="{% url 'createSpotifyUser' %}" method = "post">
                 {% csrf_token %}
                 <div class="input-group mb-3" style="width: 45%;left: 250px;top:10px">
-                    <input type="text" name='messages' class="form-control" placeholder="Enter Spotify ID to continue" aria-label="Enter User ID" aria-describedby="button-addon2">
+                    <input type="text" name='idbro' class="form-control" placeholder="Enter Spotify ID to continue" aria-label="Enter User ID" aria-describedby="button-addon2">
                     <div class="input-group-append">
                         <button name="submit" class="btn btn-primary" value = "submit" type="submit" id="button-addon2">submit</button>
                     </div>

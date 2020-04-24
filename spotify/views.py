@@ -18,8 +18,8 @@ uri2 = 'http://127.0.0.1:8000/'
 scopes = 'playlist-modify-public user-read-private'
 api_url_base = 'https://api.spotify.com/v1/playlists/'
 def add_playlist(request):
-    user = get_object_or_404(Spotify_user, user=request.user)
-    username=user.spotify_id
+    x = request.user.spotify_user.all()[0]
+    username = x.spotify_id
     api_token = util.prompt_for_user_token(username, scopes,client_id,client_secret,redirect_uri)
     new_playlist = None
     if request.method == 'POST':

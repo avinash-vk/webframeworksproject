@@ -1,23 +1,87 @@
-{% extends 'main.html' %}
-
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <meta name="google" content="notranslate" />
+  <link href="{% static 'css/newsfeed.css' %}" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous" />
+      <style>
+        .1tab{
+          visibility:visible;
+        }
+        .2tab{
+          visibility:hidden;
+        }
+        .3tab{
+          visibility:hidden;
+        }
+        </style>
+  </head>
+  <body>
+  {% include 'navbar.html' %}
 {% block content %}
-    Blogs:
-    <hr>
-    {% block blogs %}
-        {% include 'blog_display.html' %}
-    {% endblock blogs %}
-    <hr>
-    <hr>
-    Posts:
-    {% block pictures %}
-        {% include 'displaypic.html' %}
-    {% endblock pictures %}    
-    <hr>
-    <hr>
-    Workouts:
-    <hr>
-    {% block workouts %}
-        {% include 'display.html' %}
-    {% endblock workouts %}
-    <hr>
+<div class="wrapper">
+  <div class="page-header clear-filter" filter-color="orange">
+    <div class="page-header-image" data-parallax="true" style="background-image:url('https://images.unsplash.com/photo-1476984251899-8d7fdfc5c92c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3700&q=80');">
+    </div>
+    <div class="container">
+      <br>
+      <br><br>
+      <h1 class="title">Check out what your trainers have been up to!</h1>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <div class="nav-align-center">
+            <ul class="nav nav-pills nav-pills-primary nav-pills-just-icons" role="tablist">
+              <li class="nav-item 1tab">
+                <a class="nav-link active" data-toggle="tab" href="#profile" role="tablist">
+                  <i class="now-ui-icons design_image"></i>
+                </a>
+              </li>
+              <li class="nav-item 2tab">
+                <a class="nav-link" data-toggle="tab" href="#home" role="tablist">
+                  <i class="now-ui-icons location_world"></i>
+                </a>
+              </li>
+              <li class="nav-item 3tab">
+                <a class="nav-link" data-toggle="tab" href="#messages" role="tablist">
+                  <i class="now-ui-icons sport_user-run"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content gallery">
+          <div class="tab-pane active" id="home" role="tabpanel" >
+            <div class="col-md-10 ml-auto mr-auto">
+
+{% include 'blog_display.html' %}
+
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="profile" role="tabpanel" >
+            <div class="col-md-10 ml-auto mr-auto">
+            {% include 'displaypic.html' %}
+            </div>
+          </div>
+          <div class="tab-pane" id="messages" role="tabpanel" >
+            <div class="col-md-10 ml-auto mr-auto">
+            {% include 'display.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
+  <script src="js/newsfeed.js"></script>
+</body>

@@ -98,7 +98,7 @@
           <div class="row d-flex justify-content-between pt-lg-5 align-items-center">
             <div class="col-xl-5 col-lg-6 col-md-7 text-center text-lg-left mb-5 mb-lg-0">
 							<h4 class=" font-weight-bold text-white">Powered By<h4>
-              <h1 class="display-3 font-weight-bold text-yellow">GOOGLE FIT</h1>
+              <h1 class="display-3 font-weight-bold text-warning">GOOGLE FIT</h1>
               <div class="my-4 " >
                 <p class="lead text-white">Keep track of your Health with Us!Download the App Now!</p>
               </div>
@@ -110,6 +110,9 @@
 
               <div class="row justify-content-center">
                 <div class="col-xl-8 col-md-10">
+                  {% if not signed_in %}
+                		<a href = "{{ auth_url }}" class="btn google-btn social-btn text-white"><i class="fab fa-google-plus-g"></i> Sign in to google to view your google fit data</a>
+                	{% else %}
 									<h3 class="text-white">      Today's Progress</h3>
 									<br>
 									<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -160,6 +163,7 @@
 					</div>
 
                 </div>
+                {% endif %}
             </div>
                 </div>
               </div>

@@ -10,7 +10,112 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+ /*
+ Code snippet by maridlcrmn for Bootsnipp.com
+ Follow me on Twitter @maridlcrmn
+ Image credits: unsplash.com, uifaces.com/authorized
+ Image placeholders: placemi.com
+ */
 
+
+ #t-cards {
+     padding-top: 80px;
+     padding-bottom: 80px;
+     background-color: #345;
+ }
+
+ /********************************/
+ /*          Panel cards         */
+ /********************************/
+ .panel.panel-card {
+     position: relative;
+     height: 241px;
+     border: none;
+     overflow: hidden;
+ }
+ .panel.panel-card .panel-heading {
+     position: relative;
+     z-index: 2;
+     height: 120px;
+     border-bottom-color: #fff;
+     overflow: hidden;
+
+     -webkit-transition: height 600ms ease-in-out;
+             transition: height 600ms ease-in-out;
+ }
+ .panel.panel-card .panel-heading img {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     z-index: 1;
+     width: 120%;
+
+     -webkit-transform: translate3d(-50%,-50%,0);
+             transform: translate3d(-50%,-50%,0);
+ }
+ .panel.panel-card .panel-heading button {
+     position: absolute;
+     top: 10px;
+     right: 15px;
+     z-index: 3;
+ }
+ .panel.panel-card .panel-figure {
+     position: absolute;
+     top: auto;
+     left: 50%;
+     z-index: 3;
+     width: 70px;
+     height: 70px;
+     background-color: #fff;
+     border-radius: 50%;
+     opacity: 1;
+     -webkit-box-shadow: 0 0 0 3px #fff;
+             box-shadow: 0 0 0 3px #fff;
+
+     -webkit-transform: translate3d(-50%,-50%,0);
+             transform: translate3d(-50%,-50%,0);
+
+     -webkit-transition: opacity 400ms ease-in-out;
+             transition: opacity 400ms ease-in-out;
+ }
+
+ .panel.panel-card .panel-body {
+     padding-top: 40px;
+     padding-bottom: 20px;
+
+     -webkit-transition: padding 400ms ease-in-out;
+             transition: padding 400ms ease-in-out;
+ }
+
+ .panel.panel-card .panel-thumbnails {
+     padding: 0 15px 20px;
+ }
+ .panel-thumbnails .thumbnail {
+     width: 60px;
+     max-width: 100%;
+     margin: 0 auto;
+     background-color: #fff;
+ }
+
+
+ .panel.panel-card:hover .panel-heading {
+     height: 55px;
+
+     -webkit-transition: height 400ms ease-in-out;
+             transition: height 400ms ease-in-out;
+ }
+ .panel.panel-card:hover .panel-figure {
+     opacity: 0;
+
+     -webkit-transition: opacity 400ms ease-in-out;
+             transition: opacity 400ms ease-in-out;
+ }
+ .panel.panel-card:hover .panel-body {
+     padding-top: 20px;
+
+     -webkit-transition: padding 400ms ease-in-out;
+             transition: padding 400ms ease-in-out;
+ }
     body,html{
     height: 100%;
     width: 100%;
@@ -370,7 +475,31 @@ legend {
   color: inherit;
   white-space: normal;
 }
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
+.fa:hover {
+  opacity: 0.7;
+}
 
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
 progress {
   vertical-align: baseline;
 }

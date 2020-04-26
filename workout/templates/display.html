@@ -102,17 +102,17 @@
                                         <span class="card-text text-muted h6">{{ workout.likes.count }} Likes
                                             {% if follow %}  
                                                 {% if workout not in worklike %}
-                                                    <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                                                    <a href="{% url 'like_work' workout.slug %}"><i class="btn btn-primary fa fa-thumbs-up"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                                                    <a href="{% url 'like_work' workout.slug %}"><i class="btn btn-primary btn-danger fa fa-thumbs-down "></i></a>
                                                 {% endif %}
                                             {% endif %} 
                                             <br>   
                                             {% if not editable %}      
                                                 {% if workout not in worksave %}
-                                                    <a href="{% url 'save_work' workout.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                                                    <a href="{% url 'save_work' workout.slug %}"><i class="btn btn-primary bg-navy fa fa-save"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'save_work' workout.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                                                    <a href="{% url 'save_work' workout.slug %}"><i class="btn btn-danger bg-orange fa fa-save "></i></a>
                                                 {% endif %}
                                             {% endif %}
                                         </span>    

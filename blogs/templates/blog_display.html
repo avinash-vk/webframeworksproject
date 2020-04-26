@@ -95,17 +95,17 @@
                                         <span class="card-text text-muted h6">{{ post.likes.count }} Likes
                                             {% if follow %}
                                                 {% if post not in likelist %}
-                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary fas fa-4x fa fa-heart"></i></a>
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="fas fa-2x far fa-heart text-primary mb-4"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary btn-danger fa fa-heart "></i></a>
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="fas fa-2x fas fa-heart text-primary mb-4"></i></a>
                                                 {% endif %}
                                             {% endif %}
                                             <br>
                                             {% if not editable %}
                                                 {% if post not in savelist %}
-                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-primary bg-navy fa fa-save"></i></a>
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="fas fa-2x far fa-save text-primary mb-4"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-danger bg-orange fa fa-save "></i></a>
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="fas fa-2x fas fa-save text-primary mb-4"></i></a>
                                                 {% endif %}
                                             {% endif %}
                                         </span>

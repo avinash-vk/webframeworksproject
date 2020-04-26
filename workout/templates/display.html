@@ -20,7 +20,7 @@
                             {% else %}
                                 <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                             {% endif %}
-                        {% endif %}    
+                        {% endif %}
                         {% if not editable %}
                             {% if workout not in worksave %}
                                 <a href="{% url 'save_work' workout.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
@@ -30,7 +30,7 @@
                         {% endif %}
                         </span>
                     </div>
-                    
+
                     <div>
                     <a href="{% url 'workout_detail' workout.slug %}" class="btn btn-primary">Show More &rarr;</a>
                     </div>
@@ -58,7 +58,7 @@
 
 {% block content %}
 <div class="row">
-    {% for workout in workouts %} 
+    {% for workout in workouts %}
         <div class="col-lg-4 col-sm-6 mb-4">
             <div class="portfolio-item">
                 <div class="portfolio-caption">
@@ -79,7 +79,7 @@
                     <div class="portfolio-caption-subheading text-muted">{{ workout.caption|slice:":200" }}</div>
                 </div>
             </div>
-        </div>   
+        </div>
 
         <div class="portfolio-modal modal fade" id="portfolio-modal-workout{{ workout.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
             <div class="modal-dialog">
@@ -98,24 +98,25 @@
                                     </div>
                                     <p>{{ workout.author }} | {{ workout.created_on}}</p>
                                     <p>{{ workout.caption|slice:":200" }}</p>
-                                    <div>  
+                                    <div>
                                         <span class="card-text text-muted h6">{{ workout.likes.count }} Likes
-                                            {% if follow %}  
+                                            {% if follow %}
                                                 {% if workout not in worklike %}
                                                     <a href="{% url 'like_work' workout.slug %}"><i style="fill: crimson;" class="fas fa-2x far fa-heart text-primary mb-4"></i></a>
                                                 {% else %}
                                                     <a href="{% url 'like_work' workout.slug %}"><i style="fill: crimson;" class="fas fa-2x fas fa-heart text-primary mb-4"></i></a>
                                                 {% endif %}
-                                            {% endif %} 
-                                            <br>   
-                                            {% if not editable %}      
+                                            {% endif %}
+                                            <br>
+                                            {{ post.saves.count }} Saves
+                                            {% if not editable %}
                                                 {% if workout not in worksave %}
                                                     <a href="{% url 'save_work' workout.slug %}"><i class="fas fa-2x far fa-save text-primary mb-4"></i></a>
                                                 {% else %}
                                                     <a href="{% url 'save_work' workout.slug %}"><i class="fas fa-2x fas fa-save text-primary mb-4"></i></a>
                                                 {% endif %}
                                             {% endif %}
-                                        </span>    
+                                        </span>
                                     </div>
                                     <br>
                                     <div class = "list-group">

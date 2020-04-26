@@ -101,6 +101,7 @@
                                                 {% endif %}
                                             {% endif %}
                                             <br>
+                                            {{ post.saves.count }} Saves
                                             {% if not editable %}
                                                 {% if post not in savelist %}
                                                     <a href="{% url 'save_blog' post.slug %}"><i class="fas fa-2x far fa-save text-primary mb-4"></i></a>

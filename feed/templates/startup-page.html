@@ -17,21 +17,31 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
     </head>
     <body id="page-top">
+
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="#page-top">Take.Care</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <span class="navbar-brand js-scroll-trigger"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Hello, {{request.user}}</span>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
+
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+<<<<<<< HEAD
                         {% if user.is_authenticated %}
+=======
+{% if not landed %}
+>>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'newsfeed' %}">Newsfeed</a></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'explore' %}">Explore</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">Logout</a></li>
+<<<<<<< HEAD
                         {% else %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'login' %}">Login</a></li>
                         {% endif %}
+=======
+{% endif %}
+>>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                     </ul>
                 </div>
             </div>
@@ -45,12 +55,22 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Your personal online trainer for fitness and your well being</p>
+<<<<<<< HEAD
                         <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'newsfeed' %}">What's New?</a>
+=======
+{% if not landed %}
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'newsfeed'}">What's New?</a>
+{% else %}
+<a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'login' %}">Login</a>
+{% endif %}
+>>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                     </div>
                 </div>
             </div>
         </header>
+
         <section class="page-section bg-primary" id="about">
+          {% if not landed %}
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
@@ -70,6 +90,18 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0">We've got what you need!</h2>
+                        <hr class="divider light my-4" />
+                        <p class="text-white-50 mb-4">We want you to Join our community!Be a part of something magial!</p>
+                        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'register' %}">Register!</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </section>
         {% endif %}
         <section class="page-section" id="services">

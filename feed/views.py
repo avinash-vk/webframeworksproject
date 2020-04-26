@@ -35,7 +35,7 @@ def dashboard(request):
         Bio.objects.create(user=request.user,firstname="firstname unupdated",lastname="lastname unupdated",displayimage="defaultprofilepic.png",status="")
         bio=Bio.objects.filter(user=request.user)
     x = 'dashboard.html'
-    
+
     post_list = Post.objects.filter(author=request.user)
     workout_list = Workout.objects.filter(author=request.user)
     picture_list = Picture.objects.filter(author=request.user)
@@ -83,13 +83,13 @@ def dashboard(request):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
-    
+
     editable=True
     follow=False
     followers = str(Follow.objects.filter(user_to = user).count())
     following = str(Follow.objects.filter(user_from = user).count())
-   
-    
+
+
 
     context = {
         'groupname': group,
@@ -130,7 +130,7 @@ def bio_update(request):
         return redirect('dashboard')
     else:
         context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
-    return render(request, 'bio_update.html', context)  
+    return render(request, 'bio_update.html', context)
 
 def profile(request,username):
     user = request.user
@@ -187,16 +187,16 @@ def profile(request,username):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
-    
+
     editable=False
-    my_obj = Follow.objects.filter(user_to = profileuser,user_from = user).first()        
+    my_obj = Follow.objects.filter(user_to = profileuser,user_from = user).first()
     if not my_obj:
         follow=False
     else:
-        follow=True  
+        follow=True
     followers = str(Follow.objects.filter(user_to = user).count())
     following = str(Follow.objects.filter(user_from = user).count())
-   
+
     context = {
         'editable': editable,
         'groupname': group ,
@@ -252,7 +252,7 @@ def explore(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
-    
+
     worklikelist=[]
     worksavelist=[]
     cw=[]
@@ -266,7 +266,7 @@ def explore(request):
             if i.saved_by == request.user:
                 worksavelist.append(j)
         cw += list(WComment.objects.all().filter(workout = j))
-    
+
     pc=[]
     postlikelist=[]
     postsavelist=[]
@@ -279,10 +279,10 @@ def explore(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 postsavelist.append(j)
-        pc += list(PComment.objects.all().filter(picture = j))        
+        pc += list(PComment.objects.all().filter(picture = j))
 
     editable=False
-        
+
     context = {
         'followers' : b,
         'list' : q,
@@ -424,7 +424,7 @@ def newsfeed(request):
         cw += list(WComment.objects.all().filter(workout = j))
     for j in pic:
         pc += list(PComment.objects.all().filter(picture = j))
-    
+
     follow=True
     context = {
         'obj' : p,
@@ -495,12 +495,12 @@ def saved(request):
             if i.saved_by == request.user:
                 postsavelist.append(j)
         pc += list(PComment.objects.all().filter(picture = j))
-    
+
     for j in w:
         cw += list(WComment.objects.all().filter(workout = j))
     for j in pic:
         pc += list(PComment.objects.all().filter(picture = j))
-    
+
     context = {
         'obj' : p,
         'workouts' : w,
@@ -579,6 +579,6 @@ def tagView(request):
 def createSpotifyUser(request):
     if request.POST:
         x = request.POST['idbro']
-        
+
         Spotify_user.objects.create(user = request.user, spotify_id = x)
     return redirect('dashboard')

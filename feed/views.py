@@ -8,9 +8,10 @@ from django.db.models import Q
 #from .forms import BioForm
 from accounts.decorators import unauthenticated_user, allowed_users
 from .models import Follow,Like,Tag,Saves
-from blogs.models import Post
+from blogs.models import Post,Comment
 from accounts.models import Bio
 from accounts.forms import ProfileForm
+from blogs.forms import CommentForm
 from spotify.models import Playlist,Spotify_user
 from workout.models import Workout, WComment
 from posts.models import Picture, PComment
@@ -50,7 +51,7 @@ def dashboard(request):
     postsavelist=[]
     worklikelist = []
     worksavelist =[]
-
+    postcomments=[]
     for post in post_list:
         alllikes=post.likes.all()
         allsaves=post.saves.all()
@@ -60,6 +61,7 @@ def dashboard(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
+        postcomments += list(Comment.objects.all().filter(post=post))
 
     for j in workout_list:
         alllikes=j.likes.all()
@@ -90,12 +92,12 @@ def dashboard(request):
     following = str(Follow.objects.filter(user_from = user).count())
 
 
-
     context = {
         'groupname': group,
         'obj' : post_list,
         'workouts' : workout_list,
         'comments' : cw,
+
         'pictures' : picture_list,
         'playlists':playlist_list,
         'piccomments' : pc,
@@ -111,6 +113,7 @@ def dashboard(request):
         'followers': followers,
         'following': following,
         'spotifyUser' : isSpotifyuser,
+        'postcomments':postcomments
         }
     return render(request,x,context)
 
@@ -149,6 +152,7 @@ def profile(request,username):
     cw=[]
     pl = []
     ps=[]
+    postcomments=[]
     postlikelist = []
     postsavelist=[]
     worklikelist = []
@@ -164,7 +168,7 @@ def profile(request,username):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
-
+        postcomments += list(Comment.objects.all().filter(post=post))
     for j in workout_list:
         alllikes=j.likes.all()
         allsaves=j.saves.all()
@@ -198,6 +202,7 @@ def profile(request,username):
     following = str(Follow.objects.filter(user_from = user).count())
 
     context = {
+    'postcomments':postcomments,
         'editable': editable,
         'groupname': group ,
         'obj' : post_list,
@@ -241,6 +246,7 @@ def explore(request):
             pictures.append(i)
     pl=[]
     ps=[]
+    postcomments=[]
     for post in obj:
         postlikescount=post.likes.count()
         alllikes=post.likes.all()
@@ -252,6 +258,7 @@ def explore(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
+        postcomments += list(Comment.objects.all().filter(post=post))
 
     worklikelist=[]
     worksavelist=[]
@@ -284,6 +291,7 @@ def explore(request):
     editable=False
 
     context = {
+    'postcomments':postcomments,
         'followers' : b,
         'list' : q,
         'obj':obj,
@@ -388,6 +396,7 @@ def newsfeed(request):
     pc = []
     pl = []
     ps=[]
+    postcomments=[]
     for i in d:
         p += list(Post.objects.all().filter(author = i))
         w += list(Workout.objects.all().filter(author = i))
@@ -401,6 +410,7 @@ def newsfeed(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 ps.append(post)
+        postcomments += list(Comment.objects.all().filter(post=post))
     for j in w:
         alllikes=j.likes.all()
         allsaves=j.saves.all()
@@ -431,6 +441,7 @@ def newsfeed(request):
         'workouts' : w,
         'comments' : cw,
         'pictures'  : pic,
+        'postcomments':postcomments,
         'piccomments' : pc,
         'likelist' : pl,
         'savelist':ps,

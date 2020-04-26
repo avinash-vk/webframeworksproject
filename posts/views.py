@@ -110,7 +110,7 @@ def picture_comment(request, slug):
         new_comment.save()
         #else:
         #   comment_form = CommentForm()
-    return redirect('newsfeed')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     '''
     return render(request, template_name, {'workout': workout,
                                            'comments': comments,

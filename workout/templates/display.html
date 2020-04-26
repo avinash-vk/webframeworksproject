@@ -1,9 +1,5 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<div class="container">
+<!--div class="container">
     <div class="row">
-        <!-- Blog Entries Column -->
         <div class="col-md-8 mt-3 left">
             {% for workout in workouts %}
             <div class="card mb-4">
@@ -58,5 +54,101 @@
             {% endfor %}
         </div>
     </div>
+</div-->
+
+{% block content %}
+<div class="row">
+    {% for workout in workouts %} 
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="portfolio-item">
+                <div class="portfolio-caption">
+                    <div class="portfolio-caption-heading">{{ workout.title }}</div>
+                </div>
+                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal{{ workout.id }}">
+                <div class="portfolio-hover">
+                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video width="fit-content" height="fit-content" controls>
+                        <source src='/media/{{ workout.videofile }}' type="video/mp4">
+                    </video>
+                </div>
+                </a>
+                <div class="portfolio-caption">
+                    <p class="card-text text-muted h6">{{ workout.author }} | {{ workout.created_on}} </p>
+                    <div class="portfolio-caption-subheading text-muted">{{ workout.caption|slice:":200" }}</div>
+                </div>
+            </div>
+        </div>   
+
+        <div class="portfolio-modal modal fade" id="portfolio-modal{{ workout.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-dismiss="modal"><i class="fas fa-2x fa-window-close text-primary mb-4"></i></div>
+                    <div class="container" style="align-self: center;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project Details Go Here-->
+                                    <h2 class="portfolio-caption-heading">{{ workout.title }}</h2>
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <video width="fit-content" height="fit-content" controls>
+                                            <source src='/media/{{ workout.videofile }}' type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <p>{{ workout.author }} | {{ workout.created_on}}</p>
+                                    <p>{{ workout.caption|slice:":200" }}</p>
+                                    <div>  
+                                        <span class="card-text text-muted h6">{{ workout.likes.count }} Likes
+                                            {% if follow %}  
+                                                {% if workout not in worklike %}
+                                                    <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                                                {% else %}
+                                                    <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                                                {% endif %}
+                                            {% endif %} 
+                                            <br>   
+                                            {% if not editable %}      
+                                                {% if workout not in worksave %}
+                                                    <a href="{% url 'save_work' workout.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                                                {% else %}
+                                                    <a href="{% url 'save_work' workout.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>    
+                                    </div>
+                                    <br>
+                                    <div class = "list-group">
+                                        {% for i in comments %}
+                                            {% if i.workout == workout %}
+                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light"><B>@{{ i.author }}</B><I> says </I>{{ i.body }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <br>
+                                    {% if user.is_authenticated and user == workout.author %}
+                                        <a href="{% url 'workout_update' workout.slug  %}" class="btn btn-primary">Update</a>
+                                        <a href="{% url 'workout_delete' workout.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                                    {% elif follow %}
+                                        <form action="{% url 'workout_comment' workout.slug  %}" method = "post">
+                                            {% csrf_token %}
+                                            <div class="input-group mb-3">
+                                                <input type="text" name='messages' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
+                                                <div class="input-group-append">
+                                                    <button name="submit" value="{{ messages }}" class="btn btn-primary" type="submit" id="button-addon2">Post</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button"><i class="fas fa-times mr-1"></i>Close Project</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
 </div>
-{% endblock content %}
+{% endblock %}

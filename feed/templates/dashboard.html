@@ -23,11 +23,13 @@
       <br>
       <br>
       <br>
-        {% include 'displaybio.html' %}
-        
-        {% if user.is_authenticated and editable %}
-          <a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
-        {% endif %}
+        {% include 'displaybio.html' %}   
+
+
+    {% if user.is_authenticated and editable %}
+    <a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
+    <a class="btn btn-info" href = "{% url 'auth_display' %}">Fitness Data</a>
+    {% endif %}
 
         {% if groupname == "trainers" %}
         <section class="page-section bg-light" id="portfolio">

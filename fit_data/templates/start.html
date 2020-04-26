@@ -8,7 +8,7 @@
 	{% block content %}
 	{% if not signed_in %}
 		<a href = "{{ auth_url }}"> Sign in to google to view your google fit data</a>
-	
+
 	{% else %}
 	<ul>
 		your step count : {{ step_count }} steps <br>

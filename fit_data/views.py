@@ -15,7 +15,7 @@ import google_auth_httplib2
 def logout_google(request):
 	for i in OauthCreds.objects.all():
 		if i.user == request.user:
-			i.delete()			
+			i.delete()
 			break
 	return redirect('auth_display')
 
@@ -54,13 +54,14 @@ def start(request):
 	for i in OauthCreds.objects.all():
 		if i.user == request.user:
 			flag = True
-	context = {}	
+	context = {}
 	if not flag:
 		context = { 'signed_in' : False , 'auth_url':'http://127.0.0.1:8000/fit/oauth'}
-	else: 
+	else:
 		context = oauthCallback(request)
 	return render(request,'start.html',context)
-
+def extra(request):
+	return render(request,'extra.html')
 def get_data_set():
 	today = datetime.today().date()
 	now = datetime.today()
@@ -70,7 +71,7 @@ def get_data_set():
 	return data_set
 
 def oauthCallback(request):
-	
+
 	#print(q)
 	scopes = ["https://www.googleapis.com/auth/contacts.readonly",
 	"https://www.googleapis.com/auth/fitness.activity.read",
@@ -82,7 +83,7 @@ def oauthCallback(request):
 	flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
     './credentials.json',
     scopes)
-	flow.redirect_uri = 'http://127.0.0.1:8000/fit/oauth'	
+	flow.redirect_uri = 'http://127.0.0.1:8000/fit/oauth'
 	isAuthorized = False
 	for i in OauthCreds.objects.all():
 		if i.user == request.user:
@@ -97,11 +98,11 @@ def oauthCallback(request):
 
 		else:
 			code = request.GET['code']
-			flow.fetch_token(code = code) 
+			flow.fetch_token(code = code)
 			credentials = flow.credentials
-			
+
 			OauthCreds.objects.create(user = request.user,creds = credentials)
-			
+
 	else:
 		print("herelmao",request.user.data.all()[0].user)
 		print("here",request.user.data.all()[0].creds)
@@ -111,7 +112,7 @@ def oauthCallback(request):
 	datasourceid_distance = "derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta"
 	datasourceid_height = "raw:com.google.height:com.google.android.apps.fitness:user_input"
 	datasourceid_weight = "raw:com.google.weight:com.google.android.apps.fitness:user_input"
-	
+
 
 
 	dataset = get_data_set()
@@ -126,7 +127,7 @@ def oauthCallback(request):
 	distance = fitness_service.users().dataSources().datasets().get(userId='me', dataSourceId=datasourceid_distance, datasetId = dataset).execute()
 	height = fitness_service.users().dataSources().datasets().get(userId='me', dataSourceId=datasourceid_height, datasetId = dataset1).execute()
 	weight = fitness_service.users().dataSources().datasets().get(userId='me', dataSourceId=datasourceid_weight, datasetId = dataset1).execute()
-	
+
 	steps = calc_step(steps)
 	calories = calc_calorie(calories)
 	distance = calc_distance(distance)

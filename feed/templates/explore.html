@@ -70,20 +70,28 @@
                     <button class="btn btn-primary btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Follow</button>
                   {% else %}
                     <button class="btn btn-danger btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Unfollow</button>
-                  {% endif %}
+                  {% endif %}    
               </div>
+              {% for bio in bios %}
+              {% if bio.user == person.followed_to %}
               <div class="panel-figure">
-                <img class="img-responsive img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/73.jpg" />
+                <img class="img-responsive img-circle" src='/media/{{ bio.displayimage }}'/>
               </div>
+              {% endif %}
+              {% endfor %}
               <div class="panel-body text-center">
                 <h4 class="panel-header"><a href="{% url 'profile' person.followed_to %}">@{{ person.followed_to }}</a></h4>
-                <small>A short description goes here.</small>
+                <small>{{ person.email }}.</small>
               </div>
+              {% for bio in bios %}
+              {% if bio.user == person.followed_to %}
               <div class="panel-thumbnails">
                 <div class="row">
-                  Go give me a follow :) !
+                  {{ bio.firstname }} {{ bio.lastname }}
                 </div>
               </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <br>

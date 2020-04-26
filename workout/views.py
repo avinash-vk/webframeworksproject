@@ -95,7 +95,7 @@ def workout_comment(request, slug):
     new_comment = None
     # Comment posted
     if request.method == 'POST':
-        new_comment=WComment(body=request.POST.get('message'))
+        new_comment=WComment(body=request.POST.get('messages'))
         #comment_form = CommentForm(data=request.POST)
         #if comment_form.is_valid():
             # Create Comment object but don't save to database yet
@@ -109,5 +109,5 @@ def workout_comment(request, slug):
         new_comment.save()
         #else:
         #   comment_form = CommentForm()
-    return redirect('newsfeed')
-
+    #return redirect('newsfeed')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

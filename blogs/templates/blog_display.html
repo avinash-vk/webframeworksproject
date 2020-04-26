@@ -69,7 +69,7 @@
                 <div class="portfolio-caption">
                     <div class="portfolio-caption-heading">{{ post.title }}</div>
                 </div>
-                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal{{ post.id }}">
+                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal-blog{{ post.id }}">
                 <div class="portfolio-hover">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
@@ -81,7 +81,7 @@
             </div>
         </div>   
 
-        <div class="portfolio-modal modal fade" id="portfolio-modal{{ post.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
+        <div class="portfolio-modal modal fade" id="portfolio-modal-blog{{ post.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-dismiss="modal"><i class="fas fa-2x fa-window-close text-primary mb-4"></i></div>
@@ -117,7 +117,8 @@
                                     <h2>{{ comments.count }} comments</h2>
                                         {% for i in comments %}
 
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light"><B><div class="comments" style="padding: 10px;">
+                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+                                                <div class="comments" style="padding: 10px;">
                                                 <p class="font-weight-bold">
                                                 {{ i.name }}
                                                 <span class=" text-muted font-weight-normal">

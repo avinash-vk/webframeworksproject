@@ -64,7 +64,7 @@
                 <div class="portfolio-caption">
                     <div class="portfolio-caption-heading">{{ workout.title }}</div>
                 </div>
-                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal{{ workout.id }}">
+                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal-workout{{ workout.id }}">
                 <div class="portfolio-hover">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
@@ -81,7 +81,7 @@
             </div>
         </div>   
 
-        <div class="portfolio-modal modal fade" id="portfolio-modal{{ workout.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
+        <div class="portfolio-modal modal fade" id="portfolio-modal-workout{{ workout.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-dismiss="modal"><i class="fas fa-2x fa-window-close text-primary mb-4"></i></div>

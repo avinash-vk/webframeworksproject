@@ -90,7 +90,7 @@ def dashboard(request):
     follow=False
     followers = str(Follow.objects.filter(user_to = user).count())
     following = str(Follow.objects.filter(user_from = user).count())
-
+    nofposts = str(len(post_list)+len(workout_list)+len(picture_list))
 
     context = {
         'groupname': group,
@@ -112,8 +112,9 @@ def dashboard(request):
         'follow': follow,
         'followers': followers,
         'following': following,
+        'nofposts' : nofposts,
         'spotifyUser' : isSpotifyuser,
-        'postcomments':postcomments
+        'postcomments':postcomments,
         }
     return render(request,x,context)
 
@@ -200,6 +201,7 @@ def profile(request,username):
         follow=True
     followers = str(Follow.objects.filter(user_to = user).count())
     following = str(Follow.objects.filter(user_from = user).count())
+    nofposts = str(len(post_list)+len(workout_list)+len(picture_list))
 
     context = {
     'postcomments':postcomments,
@@ -221,6 +223,7 @@ def profile(request,username):
         'follow' : follow,
         'followers': followers,
         'following': following,
+        'nofposts' : nofposts,
         'spotifyUser':True,
         }
     return render(request,x,context)

@@ -14,11 +14,11 @@
                 <img class="img-fluid" src='/media/{{ picture.image }}' alt="" height="fit-content" width="fit-content"/></a>
                 <div class="portfolio-caption">
                     <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
-                    <div class="portfolio-caption-subheading text-muted">{{ picture.caption|slice:":200" }}</div>    
+                    <div class="portfolio-caption-subheading text-muted">{{ picture.caption|slice:":200" }}</div>
                 </div>
                 <!--div>
                     <span class="card-text text-muted h6">{{ picture.likes.count }} Likes
-                        {% if not editable %}  
+                        {% if not editable %}
                             {% if picture not in postlike %}
                                 <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
                             {% else %}
@@ -104,17 +104,18 @@
                                         <span class="card-text text-muted h6">{{ picture.likes.count }} Likes
                                             {% if follow %}
                                                 {% if picture not in postlike %}
-                                                    <a href="{% url 'like_post' picture.slug %}"><i class="btn btn-primary fa fa-10x fa-thumbs-up"></i></a>
+                                                    <a href="{% url 'like_post' picture.slug %}"><i class="btn btn-primary fa fa-10x fa-heart"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'like_post' picture.slug %}"><i class="btn btn-primary btn-danger fa fa-10x fa-thumbs-down "></i></a>
+                                                    <a href="{% url 'like_post' picture.slug %}"><i class="btn btn-primary btn-danger fa fa-10x fa-heart "></i></a>
                                                 {% endif %}
                                             {% endif %}
                                             <br>
+                                            {{ post.saves.count }} Saves
                                             {% if not editable %}
                                                 {% if picture not in postsave %}
-                                                    <a href="{% url 'save_post' picture.slug %}"><i class="btn btn-primary bg-navy fa fa-save"></i></a>
+                                                    <a href="{% url 'save_post' picture.slug %}"><i class="btn btn-warning fa fa-save"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'save_post' picture.slug %}"><i class="btn btn-danger bg-orange fa fa-save "></i></a>
+                                                    <a href="{% url 'save_post' picture.slug %}"><i class="btn btn-danger fa fa-save "></i></a>
                                                 {% endif %}
                                             {% endif %}
                                         </span>

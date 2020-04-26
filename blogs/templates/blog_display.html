@@ -95,17 +95,18 @@
                                         <span class="card-text text-muted h6">{{ post.likes.count }} Likes
                                             {% if follow %}
                                                 {% if post not in likelist %}
-                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary fas fa-4x fa fa-heart"></i></a>
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary fas fa-4x fa fa-heart mr-1"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary btn-danger fa fa-heart "></i></a>
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="btn btn-primary btn-danger fa fa-heart mr-1"></i></a>
                                                 {% endif %}
                                             {% endif %}
                                             <br>
+                                            {{ post.saves.count }} Saves
                                             {% if not editable %}
                                                 {% if post not in savelist %}
-                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-primary bg-navy fa fa-save"></i></a>
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-warning fa fa-save mr-1"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-danger bg-orange fa fa-save "></i></a>
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="btn btn-danger fa fa-save mr-1"></i></a>
                                                 {% endif %}
                                             {% endif %}
                                         </span>

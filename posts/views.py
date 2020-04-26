@@ -111,9 +111,3 @@ def picture_comment(request, slug):
         #else:
         #   comment_form = CommentForm()
     return redirect('newsfeed')
-    '''
-    return render(request, template_name, {'workout': workout,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
-'''

@@ -402,6 +402,7 @@ def newsfeed(request):
             if i.saved_by == request.user:
                 ps.append(post)
     for j in w:
+        cw += list(WComment.objects.all().filter(workout = j))
         alllikes=j.likes.all()
         allsaves=j.saves.all()
         for i in alllikes:
@@ -411,6 +412,7 @@ def newsfeed(request):
             if i.saved_by == request.user:
                 worksavelist.append(j)
     for j in pic:
+        pc += list(PComment.objects.all().filter(picture = j))
         alllikes=j.likes.all()
         allsaves=j.saves.all()
         for i in alllikes:
@@ -419,11 +421,6 @@ def newsfeed(request):
         for i in allsaves:
             if i.saved_by == request.user:
                 postsavelist.append(j)
-        pc += list(PComment.objects.all().filter(picture = j))
-    for j in w:
-        cw += list(WComment.objects.all().filter(workout = j))
-    for j in pic:
-        pc += list(PComment.objects.all().filter(picture = j))
 
     follow=True
     context = {

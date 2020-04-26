@@ -33,7 +33,8 @@
         <div class="page-header clear-filter" filter-color="orange">
           <div class="container">
             <br>
-            <br><br>
+            <br><br><br>
+            <h1><br><br><br></h1>
             <h1 class="title font-weight-bold">Explore. Enrich. Evolve.</h1>
             <h3 class="font-italic">See the latest workouts,blogs and posts by the best! Let's get moving!</h3>
             {% block searchbar %}
@@ -54,19 +55,44 @@
            </div>
 
                     </form>
+
                 </div>
                 {% endblock searchbar %}
 
           </div>
+          <br>
+          <br><br>
           {% block results %}
           <div class="row" id="results">
           <div class="col-md-8 mt-3 center ">
           {% for person in followers %}
-          <div class="card small">
-              <div class="card-body">
-            
-              </div>
-            </div>
+                <div class="col-sm-6 col-md-3">
+               <div class="panel panel-default panel-card ">
+                   <div class="panel-heading">
+                       <img src="https://unsplash.imgix.net/12/barley.jpg?q=75&fm=jpg&s=f39de5ca1970a13dbe6af6c86b3c47ec" />
+{% if not person.follow_exists %}
+                       <button class="btn btn-primary btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Follow</button>
+{% else %}
+ <button class="btn btn-danger btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Unfollow</button>
+{% endif %}
+                   </div>
+                   <div class="panel-figure">
+                       <img class="img-responsive img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/73.jpg" />
+                   </div>
+                   <div class="panel-body text-center">
+                       <h4 class="panel-header"><a href="{% url 'profile' person.followed_to %}">@{{ person.followed_to }}</a></h4>
+                       <small>A short description goes here.</small>
+                   </div>
+                   <div class="panel-thumbnails">
+                       <div class="row">
+                       Go give me a follow :) !
+
+                       </div>
+                   </div>
+               </div>
+       </div>
+
+
             <br>
             <br>
           {% endfor %}

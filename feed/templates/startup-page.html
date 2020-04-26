@@ -26,22 +26,12 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
 
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-<<<<<<< HEAD
-                        {% if user.is_authenticated %}
-=======
 {% if not landed %}
->>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'newsfeed' %}">Newsfeed</a></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'explore' %}">Explore</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">Logout</a></li>
-<<<<<<< HEAD
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'login' %}">Login</a></li>
-                        {% endif %}
-=======
 {% endif %}
->>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                     </ul>
                 </div>
             </div>
@@ -55,15 +45,11 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Your personal online trainer for fitness and your well being</p>
-<<<<<<< HEAD
-                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'newsfeed' %}">What's New?</a>
-=======
 {% if not landed %}
-                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'newsfeed'}">What's New?</a>
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'newsfeed' %}">What's New?</a>
 {% else %}
 <a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'login' %}">Login</a>
 {% endif %}
->>>>>>> 9791305547900f7ad8a5843977aabbf5552c3260
                     </div>
                 </div>
             </div>
@@ -71,15 +57,6 @@
 
         <section class="page-section bg-primary" id="about">
           {% if not landed %}
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h2 class="text-white mt-0">Add an about here</h2>
-                        <p class="text-white-50 mb-4">Fitness bla bla bla gainz bla bla bla muscles!</p>
-                    </div>
-                </div>
-            </div>
-        {% if user.is_authenticated %}
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
@@ -103,7 +80,6 @@
             </div>
             {% endif %}
         </section>
-        {% endif %}
         <section class="page-section" id="services">
             <div class="container">
                 <h2 class="text-center mt-0">At Your Service</h2>

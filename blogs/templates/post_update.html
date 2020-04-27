@@ -1,22 +1,13 @@
-{% extends "base.html" %}
+{% include "./formstart.html" %}
 {% block content %}
-<html>
-<head>
-<title>Posts</title>
-</head>
-
-<body>
-<h1>Edit Post</h1>
-
-<form  method="POST" >
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Edit Post" />
-</form>
-<br/><br/>
-
-
-</body>
-
-</html>
+<div op="{{ title }}" id = "datafromdjango"></div>
+<script type = "text/babel">
+	console.log("here");
+	var x = document.getElementById('datafromdjango').getAttribute('op');
+	console.log(x);
+    ReactDOM.render(
+    <FormStart FieldLabels = {["title","content","status","tagname"]} Types = {['title','textarea','select','text']} PlaceHolders = {[x,'','','']} submitText = "Edit Blog" post_url = "http://127.0.0.1:8000/blogs/api/updatepost/" />,
+    document.getElementById('formstart')
+    );
+</script>
 {% endblock content %}

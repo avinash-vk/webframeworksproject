@@ -6,8 +6,43 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-
+from .models import Bio
 from .decorators import unauthenticated_user, allowed_users
+<<<<<<< HEAD
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+def formstart(request):
+    return render(request,'formstart.html')
+
+@api_view(['POST'])
+def updatebio(request):
+    try:
+        x = list(Bio.objects.all().filter(user = request.user))
+        
+        if x==[]:
+            Bio.objects.Create(user = request.user, firstname = request.POST['FirstName'], lastname = request.POST['LastName'], displayimage = request.POST['Profile'],status = request.POST['Description'])
+        else:
+            x = x[0]
+            if request.POST['FirstName'] != '':x.firstname = request.POST['FirstName']
+            if request.POST['LastName'] != '': x.lastname = request.POST['LastName']
+            if request.POST['Profile'] != '': x.displayimage = request.POST['Profile']
+            if request.POST['Description']!='':x.status = request.POST['Description']
+            x.save()
+    except:return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)
+    return Response({'status':'no error yay'},status = status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def addbio(request):
+    try:
+        Bio.objects.Create(user = request.user, firstname = request.POST['FirstName'], lastname = request.POST['LastName'], displayimage = request.POST['Profile'],status = request.POST['Description'])
+    except:
+        return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)
+    return Response({'status':'no error yay'},status = status.HTTP_201_CREATED)
+
+@unauthenticated_user  
+=======
 @unauthenticated_user
 def landing(request):
     context = {
@@ -15,6 +50,7 @@ def landing(request):
     }
     return render(request,'startup-page.html',context)
 @unauthenticated_user
+>>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
 def register(request):
     return render(request,'register.html')
 

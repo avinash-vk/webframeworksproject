@@ -1,13 +1,12 @@
-{% extends 'base.html' %} {% block content %}
-<div class="col-md-8 card mb-4  mt-3 ">
-  <div class="card-body">
-    <h3>Add Post</h3>
-    <form method="post" style="margin-top: 1.3em;">
-      {% csrf_token %}
-      {{ addpost_form.as_p }}
-      
-      <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-    </form>
-  </div>
-</div>
+{% include "./formstart.html" %}
+{% block content %}
+<script type = "text/babel">
+    ReactDOM.render(
+    <FormStart FieldLabels = {["title","content","status","tagname"]} Types = {['text','textarea','select','text']} PlaceHolders = {[]} submitText = "Add Blog" post_url = "http://127.0.0.1:8000/blogs/api/addpost/" />,
+    document.getElementById('formstart')
+    );
+</script>
 {% endblock content %}
+
+
+

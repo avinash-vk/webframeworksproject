@@ -26,7 +26,6 @@ class Workout(models.Model):
     def save(self,*args,**kwargs):
         self.slug = slugify(self.title)
         super(Workout,self).save(*args,**kwargs)
-
     def __str__(self):
         return self.title+": "+str(self.videofile)
 
@@ -35,7 +34,7 @@ class WComment(models.Model):
     #name = models.CharField(max_length=80)
     #email = models.EmailField()
     author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='workout_comments')
-    body = models.TextField(max_length=140)
+    body = models.TextField(max_length=140,blank=True,default="nice")
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
 

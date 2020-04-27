@@ -35,7 +35,7 @@ def tag_score(obj1,obj2):
             l1.append(i.name)
         elif i.content_object.slug == obj2.slug:
             l2.append(i.name)
-   
+
     weight = 1000
     return weight*jaccard_score(l1,l2)
 
@@ -47,13 +47,13 @@ def jaccard_score(l1,l2):
     union = len(l1)+len(l2) - intersection
     if union==0 and intersection == 0:
         union =1
-    
+
     jscore = float(intersection)/union
     return jscore
 
 def get_recommendation(user):
     # need to generate an array with similarity of every post with each other.
-    # check if user has liked that object. then scale first 10 similar posts related to the liked post by a value  
+    # check if user has liked that object. then scale first 10 similar posts related to the liked post by a value
     # return top 10 array of objects for recommendations.
     post_list = Picture.objects.all()
     blog_list = Post.objects.all()
@@ -61,7 +61,7 @@ def get_recommendation(user):
 
     combined_list = list(chain(post_list,blog_list,work_list))
     combined_list = sorted(combined_list, key = lambda x: x.likes.count())
-    
+
     l = []
     likeset = Like.objects.all()
     for i in combined_list:
@@ -71,7 +71,11 @@ def get_recommendation(user):
 
     if l==[]:
         return combined_list[:10]
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
     else:
         score = list()
         for i in l:
@@ -80,11 +84,10 @@ def get_recommendation(user):
                 score.append([i,j,risk])
 
     score = sorted(score, key = lambda x: x[2], reverse = True)
-    
+
     res = []
     for i in score:
         res.append(i[1])
     res += combined_list
-    
-    return res[:10]
 
+    return res[:10]

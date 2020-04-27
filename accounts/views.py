@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .models import Bio
 from .decorators import unauthenticated_user, allowed_users
+<<<<<<< HEAD
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -41,23 +42,34 @@ def addbio(request):
     return Response({'status':'no error yay'},status = status.HTTP_201_CREATED)
 
 @unauthenticated_user  
+=======
+@unauthenticated_user
+def landing(request):
+    context = {
+    'landed':True
+    }
+    return render(request,'startup-page.html',context)
+@unauthenticated_user
+>>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
 def register(request):
     return render(request,'register.html')
-   
+
 @unauthenticated_user
 def trainer_register(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
+        print("insideeee first ifff")
         if form.is_valid():
             user  = form.save()
             group = Group.objects.get(name = "trainers")
             user.groups.add(group)
-
+            print("insideeee")
             return redirect('login')
     context = {
         'form' : form,
     }
+    print("checkkkk")
     return render(request,'trainer_register.html',context)
 
 @unauthenticated_user
@@ -83,12 +95,12 @@ def loginUser(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username = username, password = password)
-        
-        
+
+
         if user is not None:
             login(request,user)
             return redirect('start-page')
-            
+
         else:
             print("wrong password")
     context = {}
@@ -96,7 +108,7 @@ def loginUser(request):
 
 def logoutUser(request):
 	logout(request)
-	return redirect('login')
+	return redirect('landing')
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['trainers'])

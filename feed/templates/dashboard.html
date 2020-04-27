@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <meta name="description" content="" />
       <meta name="author" content="" />
-      <title>Dashboard-{{ user }}</title>
+      <title>Dashboard</title>
       <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
       <!-- Font Awesome icons (free version)-->
       <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
@@ -25,16 +25,13 @@
       <br>
       <br>
       <br>
+<<<<<<< HEAD
       
         {% include 'displaybio.html' %}   
+=======
+        {% include 'displaybio.html' %}
+>>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
 
-
-    {% if user.is_authenticated and editable %}
-    <a class="btn btn-info" href = "{% url 'saved' %}">Your Saves</a>
-    <a class="btn btn-info" href = "{% url 'auth_display' %}">Fitness Data</a>
-    {% endif %}
-
-        {% if groupname == "trainers" %}
         <section class="page-section bg-light" id="portfolio">
           <div class="container">
 
@@ -44,7 +41,7 @@
           <br>
 
           <br>
-          <div class="text-center">   
+          <div class="text-center">
             <h3 class="section-subheading text-muted">Blogs</h3>
           </div>
             {% block userblogs %}
@@ -55,13 +52,13 @@
               <div class="text-center">
                 <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a>
               </div>
-            {% endif %} 
+            {% endif %}
           <br>
           <hr>
 
           <br>
-          
-          <div class="text-center">   
+
+          <div class="text-center">
             <h3 class="section-subheading text-muted">Posts</h3>
           </div>
             {% block pictures %}
@@ -74,9 +71,9 @@
             {% endif %}
           <br>
           <hr>
-          
+
           <br>
-          <div class="text-center">   
+          <div class="text-center">
             <h3 class="section-subheading text-muted">Workouts</h3>
           </div>
             {% block workouts %}
@@ -91,17 +88,29 @@
           <hr>
 
           <br>
-          <div class="text-center">   
+          <div class="text-center">
             <h3 class="section-subheading text-muted">Playlists</h3>
           </div>
-            {% block userplaylist %}
-              {% include 'displayplaylist.html' %}
-            {% endblock userplaylist %}
+          {% block userplaylist %}
+       {% if spotifyUser %}
+       {% include 'displayplaylist.html' %}
+       {% else %}
+           <form action="{% url 'createSpotifyUser' %}" method = "post">
+               {% csrf_token %}
+               <div class="input-group mb-3" style="width: 45%;left: 250px;top:10px">
+                   <input type="text" name='idbro' class="form-control" placeholder="Enter Spotify ID to continue" aria-label="Enter User ID" aria-describedby="button-addon2">
+                   <div class="input-group-append">
+                       <button name="submit" class="btn btn-primary" value = "submit" type="submit" id="button-addon2">submit</button>
+                   </div>
+               </div>
+           </form>
+       {% endif %}
+   {% endblock userplaylist %}
           <br>
 
           </div>
         </section>
-        {% endif %}
+        
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
       <!-- Third party plugin JS-->
@@ -120,4 +129,3 @@
     </body>
   </html>
 {% endblock content %}
-

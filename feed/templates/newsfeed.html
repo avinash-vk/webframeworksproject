@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <meta name="description" content="" />
       <meta name="author" content="" />
-      <title>Newsfeed-{{ user }}</title>
+      <title>Newsfeed</title>
       <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
       <!-- Font Awesome icons (free version)-->
       <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
@@ -27,31 +27,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous" />
-      <style>
-        .1tab{
-          visibility:visible;
-        }
-        .2tab{
-          visibility:hidden;
-        }
-        .3tab{
-          visibility:hidden;
-        }
-        </style>
     </head>
     <body id="page-top">
+      <div class="wrapper">
+        <div class="page-header clear-filter" filter-color="orange">
+          <div class="container">
+            <br>
+            <br><br><br><br><br><br>
+            <h1 class="title font-weight-bold">Check out what your trainers have been up to!</h1>
+            <h3 class="font-italic">See the latest workouts,blogs and posts by your favourites! Let's get moving!</h3>
+          </div>
+        </div>
+      </div> 
+      <section class="page-section bg-light" id="portfolio">
+          <hr>
+            <div class="row">
+              <div class="col-md-6 ml-auto mr-auto">
+                <div class="nav-align-center">
+                  <ul class="nav nav-pills nav-pills-primary nav-pills-just-icons" role="tablist">
+                    <li class="nav-item 1tab">
+                      <a class="nav-link active" data-toggle="tab" href="#profile" role="tablist">
+                        <i class="now-ui-icons design_image"></i>
+                      </a>
+                    </li>
+                    <li class="nav-item 2tab">
+                      <a class="nav-link" data-toggle="tab" href="#home" role="tablist">
+                        <i class="now-ui-icons location_world"></i>
+                      </a>
+                    </li>
+                    <li class="nav-item 3tab">
+                      <a class="nav-link" data-toggle="tab" href="#messages" role="tablist">
+                        <i class="now-ui-icons sport_user-run"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div> 
+          <hr>
+          <br>  
+            <div class="container">
+            <div class="text-center">
+              <h2 class="section-heading text-uppercase">Newsfeed</h2>
+            </div>
+            <br>
+            <br>
 
-
-<section class="page-section bg-light" id="portfolio">
-    <div class="container">
-
-      <div class="text-center">
-        <h2 class="section-heading text-uppercase">Newsfeed</h2>
-      </div>
-    <br>
-    <br>
-
-    <div class="text-center">   
+    <div class="text-center">
       <h3 class="section-subheading text-muted">Blogs</h3>
     </div>
       {% block userblogs %}
@@ -61,16 +83,16 @@
     <hr>
 
     <hr>
-    <div class="text-center">   
+    <div class="text-center">
         <h3 class="section-subheading text-muted">Posts</h3>
     </div>
     {% block pictures %}
         {% include 'displaypic.html' %}
-    {% endblock pictures %}    
+    {% endblock pictures %}
     <hr>
 
     <hr>
-    <div class="text-center">   
+    <div class="text-center">
         <h3 class="section-subheading text-muted">Workouts</h3>
     </div>
     <hr>
@@ -80,66 +102,8 @@
     <hr>
 
     </div>
-</section>        
+</section>
 
-  {% include 'navbar.html' %}
-
-<div class="wrapper">
-  <div class="page-header clear-filter" filter-color="orange">
-    <div class="page-header-image" data-parallax="true" style="background-image:url('https://images.unsplash.com/photo-1476984251899-8d7fdfc5c92c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3700&q=80');">
-    </div>
-    <div class="container">
-      <br>
-      <br><br>
-      <h1 class="title">Check out what your trainers have been up to!</h1>
-    </div>
-  </div>
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 ml-auto mr-auto">
-          <div class="nav-align-center">
-            <ul class="nav nav-pills nav-pills-primary nav-pills-just-icons" role="tablist">
-              <li class="nav-item 1tab">
-                <a class="nav-link active" data-toggle="tab" href="#profile" role="tablist">
-                  <i class="now-ui-icons design_image"></i>
-                </a>
-              </li>
-              <li class="nav-item 2tab">
-                <a class="nav-link" data-toggle="tab" href="#home" role="tablist">
-                  <i class="now-ui-icons location_world"></i>
-                </a>
-              </li>
-              <li class="nav-item 3tab">
-                <a class="nav-link" data-toggle="tab" href="#messages" role="tablist">
-                  <i class="now-ui-icons sport_user-run"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- Tab panes -->
-        <div class="tab-content gallery">
-          <div class="tab-pane active" id="home" role="tabpanel" >
-            <div class="col-md-10 ml-auto mr-auto">
-
-{% include 'blog_display.html' %}
-
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane" id="profile" role="tabpanel" >
-            <div class="col-md-10 ml-auto mr-auto">
-            {% include 'displaypic.html' %}
-            </div>
-          </div>
-          <div class="tab-pane" id="messages" role="tabpanel" >
-            <div class="col-md-10 ml-auto mr-auto">
-            {% include 'display.html' %}
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 {% endblock %}

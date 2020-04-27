@@ -1,13 +1,13 @@
 
 {% block content %}
 <div class="row">
-    {% for picture in pictures %}  
+    {% for picture in pictures %}
         <div class="col-lg-4 col-sm-6 mb-4">
             <div class="portfolio-item">
                 <div class="portfolio-caption">
                     <div class="portfolio-caption-heading">{{ picture.title }}</div>
                 </div>
-                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal{{ picture.id }}">
+                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal-post{{ picture.id }}">
                 <div class="portfolio-hover">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
@@ -16,9 +16,27 @@
                     <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
                     <div class="portfolio-caption-subheading text-muted">{{ picture.caption|slice:":200" }}</div>
                 </div>
+                <!--div>
+                    <span class="card-text text-muted h6">{{ picture.likes.count }} Likes
+                        {% if not editable %}
+                            {% if picture not in postlike %}
+                                <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                            {% else %}
+                                <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                            {% endif %}
+                        {% endif %}
+                        {% if not editable %}
+                            {% if picture not in postsave %}
+                                <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                            {% else %}
+                                <a href="{% url 'save_post' picture.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                </div-->
             </div>
-        </div>    
-            
+        </div>
+
             <!--div  class="col">
             <div class="card mb-4">
                 <div class="card-body">
@@ -29,23 +47,23 @@
                     </div>
                     <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
                     <p class="card-text">{{picture.caption|slice:":200" }}</p>
-                    <div>  
+                    <div>
                     <span class="card-text text-muted h6">{{ picture.likes.count }} Likes
-                    {% if follow %}  
+                    {% if follow %}
                             {% if picture not in postlike %}
                             <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
                         {% else %}
                             <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
                         {% endif %}
-                    {% endif %}    
-                    {% if not editable %}      
+                    {% endif %}
+                    {% if not editable %}
                         {% if picture not in postsave %}
                             <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
                         {% else %}
                             <a href="{% url 'save_post' picture.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
                         {% endif %}
                     {% endif %}
-                    </span>    
+                    </span>
                     </div>
 
                     <div>
@@ -67,9 +85,9 @@
                     {% endif %}
                 </div>
             </div>
-            </div-->  
+            </div-->
 
-        <div class="portfolio-modal modal fade" id="portfolio-modal{{ picture.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
+        <div class="portfolio-modal modal fade" id="portfolio-modal-post{{ picture.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-dismiss="modal"><i class="fas fa-2x fa-window-close text-primary mb-4"></i></div>
@@ -82,24 +100,25 @@
                                     <img class="img-fluid d-block mx-auto" src='/media/{{ picture.image }}' alt="" height="fit-content" width="fit-content"/>
                                     <p>{{ picture.author }} | {{ picture.created_on}}</p>
                                     <p>{{picture.caption|slice:":200" }}</p>
-                                    <div>  
+                                    <div>
                                         <span class="card-text text-muted h6">{{ picture.likes.count }} Likes
-                                            {% if follow %}  
+                                            {% if follow %}
                                                 {% if picture not in postlike %}
-                                                    <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-10x fa-thumbs-up"></a>
+                                                    <a href="{% url 'like_post' picture.slug %}"><i class="fas fa-2x far fa-heart text-primary mb-4"></i></a>
                                                 {% else %}
-                                                    <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-10x fa-thumbs-down "></a>
-                                                {% endif %}
-                                            {% endif %} 
-                                            <br>   
-                                            {% if not editable %}      
-                                                {% if picture not in postsave %}
-                                                    <a href="{% url 'save_post' picture.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
-                                                {% else %}
-                                                    <a href="{% url 'save_post' picture.slug %}" class="btn btn-danger bg-orange fa fa-save "></a>
+                                                    <a href="{% url 'like_post' picture.slug %}"><i class="fas fa-2x fas fa-heart text-primary mb-4"></i></a>
                                                 {% endif %}
                                             {% endif %}
-                                        </span>    
+                                            <br>
+                                            {{ post.saves.count }} Saves
+                                            {% if not editable %}
+                                                {% if picture not in postsave %}
+                                                    <a href="{% url 'save_post' picture.slug %}"><i class="fas fa-2x far fa-save text-primary mb-4"></i></a>
+                                                {% else %}
+                                                    <a href="{% url 'save_post' picture.slug %}"><i class="fas fa-2x fas fa-save text-primary mb-4"></i></a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
                                     </div>
                                     <br>
                                     <div class = "list-group">

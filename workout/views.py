@@ -88,7 +88,6 @@ def workout_delete(request, slug):
 
 
 def workout_comment(request, slug):
-    template_name = 'workout_comment.html'
     workout = get_object_or_404(Workout, slug=slug)
     user=request.user
     #comments = Comment.objects.filter(post = post)
@@ -96,7 +95,7 @@ def workout_comment(request, slug):
     new_comment = None
     # Comment posted
     if request.method == 'POST':
-        new_comment=WComment(body=request.POST.get('message'))
+        new_comment=WComment(body=request.POST.get('messages'))
         #comment_form = CommentForm(data=request.POST)
         #if comment_form.is_valid():
             # Create Comment object but don't save to database yet
@@ -105,15 +104,10 @@ def workout_comment(request, slug):
         #new_comment.body = body
         new_comment.workout = workout
         new_comment.author = user
-        new_comment.active = False
+        new_comment.active = True
             # Save the comment to the database
         new_comment.save()
         #else:
         #   comment_form = CommentForm()
-    return redirect('newsfeed')
-    '''
-    return render(request, template_name, {'workout': workout,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
-'''
+    #return redirect('newsfeed')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

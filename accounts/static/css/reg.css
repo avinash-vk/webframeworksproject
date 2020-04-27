@@ -1,5 +1,5 @@
 html,body {
-  background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.1)), url(https://images.unsplash.com/photo-1434682881908-b43d0467b798?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60) no-repeat center center fixed;
+  background:  url(https://images.unsplash.com/photo-1521800641212-77d98bb90d21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -45,7 +45,7 @@ input-group{
   width: 250px;
   height: 260px;
   border-radius: 5px;
-  background: rgba(3,3,3,0.25);
+  background: rgba(10,10,10,0.25);
   box-shadow: 1px 1px 50px #000;
   display: none;
 }
@@ -86,7 +86,7 @@ input{
 input:focus{
   outline: none;
   box-shadow: 3px 3px 10px #333;
-  background: rgba(3,3,3,.18);
+  background: rgba(10,10,10,.18);
 }
 
 /* Placeholders */
@@ -94,6 +94,7 @@ input:focus{
    color: #ddd;  }
 :-moz-placeholder { /* Firefox 18- */
   font-family: monospace;
+  font-weight: bold;
    color: white;  }
 ::-moz-placeholder {  /* Firefox 19+ */
   font-family: monospace;

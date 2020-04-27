@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from django.views import generic
 from .models import Workout, WComment
 from feed.views import set_like,set_save
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import  LoginRequiredMixin
 from .forms import WorkoutForm, CommentForm
@@ -47,11 +50,49 @@ def workout_detail(request, slug):
                                            'alllikescount':alllikescount,
                                            'likelist':likelist,
                                            })
+
+
+def addworkout(request):
+    return render(request,'addworkout.html')
+
+def workout_update(request,slug):
+    obj= get_object_or_404(Workout,slug=slug)
+    print("hhere",obj)
+    return render(request,'workout_update.html',{'title':obj.title})
+
+@api_view(['POST'])
+def updateworkout(request):
+    try:
+        x = list(Workout.objects.all().filter(author = request.user).filter(title = request.POST['title']))
+        print(x)
+        if x==[]:
+            Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.POST['videofile'], caption = request.POST['caption'])
+        else:
+            x = x[0]
+            if request.POST['videofile'] != '': x.videofile = request.POST['videofile']
+            if request.POST['caption'] != '': x.caption = request.POST['caption']
+            x.save()
+    except Exception as e:
+        print("here",e)
+        return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)
+    return Response({'status':'no error yay'},status = status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def add_workout(request):
+    try:
+        Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.POST['videofile'], caption = request.POST['caption'])
+    except Exception as e:
+        print(e)
+        return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)
+    return Response({'status':'no error yay'},status = status.HTTP_201_CREATED)
+
+
+'''
 def addworkout(request):
     template_name='addworkout.html'
     user=request.user
-    '''user=get_object_or_404(User)
-    posts=post.filter(status=1,author=user)'''
+    ''''''user=get_object_or_404(User)
+    posts=post.filter(status=1,author=user)''''''
     new_workout=None
     if request.method=='POST':
         addworkout_form =WorkoutForm(request.POST,request.FILES)
@@ -80,7 +121,7 @@ def workout_update(request,slug):
             context= {'form': form,'error': 'The form was not updated successfully. Please enter in a title and content'}
     return render(request, 'workout_update.html', context)
 
-
+'''
 def workout_delete(request, slug):
     workout = get_object_or_404(Workout, slug=slug)
     workout.delete()

@@ -70,7 +70,7 @@ def get_recommendation(user):
                 l.append(i)
 
     if l==[]:
-        return ['LOLOLOL']+combined_list[:10]
+        return combined_list[:10]
     
     else:
         score = list()

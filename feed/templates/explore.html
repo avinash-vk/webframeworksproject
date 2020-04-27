@@ -67,7 +67,8 @@
               <div class="panel-heading">
                 <img src="https://unsplash.imgix.net/12/barley.jpg?q=75&fm=jpg&s=f39de5ca1970a13dbe6af6c86b3c47ec" />
                   {% if not person.follow_exists %}
-                    <button class="btn btn-primary btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Follow</button>
+                    <button class="btn btn-primary btn-sm"><a href="{% url 'followSet' person.followed_to %}">Follow</a></button>
+                    <button class="btn btn-primary btn-sm" href="{% url 'followSet' person.followed_to %}">Follow</button>
                   {% else %}
                     <button class="btn btn-danger btn-sm" href="{% url 'followSet' person.followed_to %}" role="button">Unfollow</button>
                   {% endif %}    

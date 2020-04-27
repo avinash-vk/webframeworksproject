@@ -23,15 +23,17 @@ def trainer_register(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
+        print("insideeee first ifff")
         if form.is_valid():
             user  = form.save()
             group = Group.objects.get(name = "trainers")
             user.groups.add(group)
-
+            print("insideeee")
             return redirect('login')
     context = {
         'form' : form,
     }
+    print("checkkkk")
     return render(request,'trainer_register.html',context)
 
 @unauthenticated_user

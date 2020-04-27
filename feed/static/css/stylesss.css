@@ -16,7 +16,14 @@
  Image credits: unsplash.com, uifaces.com/authorized
  Image placeholders: placemi.com
  */
-
+.followbg{
+  position:absolute;
+  z-index:1
+}
+.follow{
+  position:absolute;
+  z-index:2
+}
 
  #t-cards {
      padding-top: 80px;
@@ -1152,7 +1159,11 @@ pre code {
   .order-sm-6 {
     order: 6;
   }
-
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
   .order-sm-7 {
     order: 7;
   }

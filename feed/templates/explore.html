@@ -55,7 +55,7 @@
           <br>
           <br><br>
         </div>
-      </div>
+      </div>  
       <br>
       <br>
       <section class="page-section bg-light" id="portfolio">
@@ -70,7 +70,7 @@
                     <a href="{% url 'followSet' person.followed_to  %}" class="follow btn btn-primary">Follow</a>
                   {% else %}
                     <a href="{% url 'followSet' person.followed_to  %}" class="follow btn btn-danger" >Unfollow</a>
-                  {% endif %}
+                  {% endif %}    
               </div>
               {% for bio in bios %}
               {% if bio.user == person.followed_to %}

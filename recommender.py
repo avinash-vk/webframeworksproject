@@ -71,11 +71,6 @@ def get_recommendation(user):
 
     if l==[]:
         return combined_list[:10]
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
     else:
         score = list()
         for i in l:

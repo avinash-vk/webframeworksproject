@@ -66,10 +66,10 @@ def updateworkout(request):
         x = list(Workout.objects.all().filter(author = request.user).filter(title = request.POST['title']))
         print(x)
         if x==[]:
-            Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.POST['videofile'], caption = request.POST['caption'])
+            Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.FILES['videofile'], caption = request.POST['caption'])
         else:
             x = x[0]
-            if request.POST['videofile'] != '': x.videofile = request.POST['videofile']
+            if request.FILES['videofile'] != '': x.videofile = request.FILES['videofile']
             if request.POST['caption'] != '': x.caption = request.POST['caption']
             x.save()
     except Exception as e:
@@ -80,7 +80,7 @@ def updateworkout(request):
 @api_view(['POST'])
 def add_workout(request):
     try:
-        Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.POST['videofile'], caption = request.POST['caption'])
+        Workout.objects.create(author = request.user, title = request.POST['title'], videofile = request.FILES['videofile'], caption = request.POST['caption'])
     except Exception as e:
         print(e)
         return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)

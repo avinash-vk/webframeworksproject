@@ -63,14 +63,16 @@ def picture_update(request,slug):
 
 @api_view(['POST'])
 def apiupdatepicture(request):
+    print(request.POST.dict())
+    print(request.FILES)
     try:
         x = list(Picture.objects.all().filter(author = request.user).filter(title = request.POST['title']))
         print(x)
         if x==[]:
-            Picture.objects.create(author = request.user, title = request.POST['title'], image = request.POST['image'], caption = request.POST['caption'])
+            Picture.objects.create(author = request.user, title = request.POST['title'], image = request.FILES['image'], caption = request.POST['caption'])
         else:
             x = x[0]
-            if request.POST['image'] != '': x.image = request.POST['image']
+            if request.FILES['image'] != '': x.image = request.FILES['image']
             if request.POST['caption'] != '': x.caption = request.POST['caption']
             x.save()
     except Exception as e:
@@ -80,8 +82,10 @@ def apiupdatepicture(request):
 
 @api_view(['POST'])
 def apiaddpicture(request):
+    print(request.POST.dict())
+    print(request.FILES.dict())
     try:
-        Picture.objects.create(author = request.user, title = request.POST['title'], image = request.POST['image'], caption = request.POST['caption'])
+        Picture.objects.create(author = request.user, title = request.POST['title'], image = request.FILES['image'], caption = request.POST['caption'])
     except Exception as e:
         print(e)
         return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)

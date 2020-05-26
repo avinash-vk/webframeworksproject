@@ -16,8 +16,6 @@ from .models import Post
 from .forms import CommentForm,AddPostForm
 from django.shortcuts import render, get_object_or_404
 
-<<<<<<< HEAD
-=======
 def blog_comment(request, slug):
     #template_name = 'picture_comment.html'
     blog = get_object_or_404(Post, slug=slug)
@@ -42,7 +40,7 @@ def blog_comment(request, slug):
         #else:
         #   comment_form = CommentForm()
     return redirect('newsfeed')
->>>>>>> 304d06e9fb5479fd493256eda982e6045714edc1
+
 def addtag(post):
     l = str(post.tagname).split(',')
     for i in l:
@@ -61,11 +59,11 @@ def updatepost(request):
         x = list(Post.objects.all().filter(author = request.user).filter(title = request.POST['title']))
         print(x)
         if x==[]:
-            Post.objects.Create(author = request.user, title = request.POST['title'], content = request.POST['content'], status = request.POST['status'],tagname = request.POST['tagname'])
+            Post.objects.Create(author = request.user, title = request.POST['title'], content = request.POST['content'], tagname = request.POST['tagname'])
         else:
             x = x[0]
             if request.POST['content'] != '': x.content = request.POST['content']
-            if request.POST['status'] != '': x.status = request.POST['status']
+            #if request.POST['status'] != '': x.status = request.POST['status']
             if request.POST['tagname']!='':x.tagname = request.POST['tagname']
             x.save()
     except Exception as e:
@@ -75,8 +73,10 @@ def updatepost(request):
 
 @api_view(['POST'])
 def add_post(request):
+    print("here")
+    print(request.POST.dict())
     try:
-        Post.objects.create(author = request.user, title = request.POST['title'], content = request.POST['content'], status = request.POST['status'],tagname = request.POST['tagname'])
+        Post.objects.create(author = request.user, title = request.POST['title'], content = request.POST['content'], tagname = request.POST['tagname'])
     except Exception as e:
         print(e)
         return Response({'status':'error'}, status.HTTP_400_BAD_REQUEST)

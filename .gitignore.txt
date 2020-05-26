@@ -1,3 +1,10 @@
 pycache/
 migrations/
 .vscode/
+__pycache__/
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+env/

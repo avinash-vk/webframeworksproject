@@ -2,10 +2,11 @@
 {% block content %}
 <div op="{{ title }}" id = "datafromdjango"></div>
 <script type = "text/babel">
+var host = window.location.host
 	var x = document.getElementById('datafromdjango').getAttribute('op');
 	console.log(x);
     ReactDOM.render(
-    <FormStart FieldLabels = {["title","videofile","caption"]} Types = {['title','file','textarea']} PlaceHolders = {[x,'','','']} submitText = "Edit Workout" post_url = "http://www.takecare-app.herokuapp.com/workout/api/workoutupdate/" />,
+    <FormStart FieldLabels = {["title","videofile","caption"]} Types = {['title','file','textarea']} PlaceHolders = {[x,'','','']} submitText = "Edit Workout" post_url = {`${host}/workout/api/workoutupdate/`} />,
     document.getElementById('formstart')
     );
 </script>

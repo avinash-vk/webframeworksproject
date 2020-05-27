@@ -2,11 +2,12 @@
 {% block content %}
 <div op="{{ title }}" id = "datafromdjango"></div>
 <script type = "text/babel">
+var host = window.location.host
 	console.log("here");
 	var x = document.getElementById('datafromdjango').getAttribute('op');
 	console.log(x);
     ReactDOM.render(
-    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['title','textarea','text']} PlaceHolders = {[x,'','']} submitText = "Edit Blog" post_url = "http://127.0.0.1:8000/blogs/api/updatepost/" />,
+    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['title','textarea','text']} PlaceHolders = {[x,'','']} submitText = "Edit Blog" post_url = {`${host}/blogs/api/updatepost/`} />,
     document.getElementById('formstart')
     );
 </script>

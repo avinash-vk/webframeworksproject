@@ -1,12 +1,11 @@
 {% include "./formstart.html" %}
 {% block content %}
 <script type = "text/babel">
+    var host = window.location.host
+    console.log(host)
     ReactDOM.render(
-    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['text','textarea','text']} PlaceHolders = {[]} submitText = "Add Blog" post_url = "http://127.0.0.1:8000/blogs/api/addpost/" />,
+    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['text','textarea','text']} PlaceHolders = {[]} submitText = "Add Blog" post_url = {`${host}/blogs/api/addpost/`} />,
     document.getElementById('formstart')
     );
 </script>
 {% endblock content %}
-
-
-

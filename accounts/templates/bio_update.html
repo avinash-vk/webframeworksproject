@@ -1,8 +1,9 @@
 {% include "./formstart.html" %}
 {% block content %}
 <script type = "text/babel">
+    var host = window.location.host
     ReactDOM.render(
-    <FormStart FieldLabels = {["FirstName","LastName","Profile","Description"]} Types = {['text','text','file','textarea']} PlaceHolders = {[]} submitText = "Edit Bio" post_url = "http://127.0.0.1:8000/api/updatebio/" />,
+    <FormStart FieldLabels = {["FirstName","LastName","Profile","Description"]} Types = {['text','text','file','textarea']} PlaceHolders = {[]} submitText = "Edit Bio" post_url = {`${host}/api/updatebio/`} />,
     document.getElementById('formstart')
     );
 </script>

@@ -1,8 +1,9 @@
 {% include "./formstart.html" %}
 {% block content %}
 <script type = "text/babel">
+var host = window.location.host
     ReactDOM.render(
-    <FormStart FieldLabels = {["title","image","caption"]} Types = {['text','file','textarea']} PlaceHolders = {[]} submitText = "Add Workout" post_url = "http://127.0.0.1:8000/picture/api/addpicture/" />,
+    <FormStart FieldLabels = {["title","image","caption"]} Types = {['text','file','textarea']} PlaceHolders = {[]} submitText = "Add Workout" post_url = {`${host}/picture/api/addpicture/ `} />,
     document.getElementById('formstart')
     );
 </script>

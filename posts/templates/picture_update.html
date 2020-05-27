@@ -2,11 +2,12 @@
 {% block content %}
 <div op="{{ title }}" id = "datafromdjango"></div>
 <script type = "text/babel">
+	var host = window.location.host
 	var x = document.getElementById('datafromdjango').getAttribute('op');
 	console.log(x);
 
 	ReactDOM.render(
-	    <FormStart FieldLabels = {["title","image","caption"]} Types = {['title','file','textarea']} PlaceHolders = {[x,'','','']} submitText = "Edit Workout" post_url = "http://127.0.0.1:8000/picture/api/pictureupdate/" />,
+	    <FormStart FieldLabels = {["title","image","caption"]} Types = {['title','file','textarea']} PlaceHolders = {[x,'','','']} submitText = "Edit Workout" post_url = {`${host}/picture/api/pictureupdate/`} />,
 	    document.getElementById('formstart')
     );
 

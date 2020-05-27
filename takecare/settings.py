@@ -24,9 +24,9 @@ PROJECT_DIR = os.path.dirname(__file__)
 SECRET_KEY = ')*oly2f@w_i2a(zplcp8t1l44yc_6+5sa_vg!=@#rmpyqen%#g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','takecare-app.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1',]#'takecare-app.herokuapp.com']
 
 # Application definition
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
+    #'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -57,10 +57,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'takecare.urls'
 
@@ -96,9 +96,9 @@ DATABASES = {
         'PORT':'',
     }
 }
-
+'''
 db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+DATABASES['default'].update(db_from_env)'''
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -130,11 +130,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+'''
 SECRET_KEY = os.environ.get('SECRET_KEY')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
+'''
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 

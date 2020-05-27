@@ -6,7 +6,7 @@
 	var x = document.getElementById('datafromdjango').getAttribute('op');
 	console.log(x);
     ReactDOM.render(
-    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['title','textarea','text']} PlaceHolders = {[x,'','']} submitText = "Edit Blog" post_url = "http://1www.takecare-app.herokuapp.com/blogs/api/updatepost/" />,
+    <FormStart FieldLabels = {["title","content","tagname"]} Types = {['title','textarea','text']} PlaceHolders = {[x,'','']} submitText = "Edit Blog" post_url = "http://127.0.0.1:8000/blogs/api/updatepost/" />,
     document.getElementById('formstart')
     );
 </script>

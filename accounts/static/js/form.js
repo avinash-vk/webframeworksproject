@@ -43,7 +43,7 @@ class FormStart extends React.Component {
       [e.target.name] : e.target.value
     })
   }
-  handleSubmit = async (e) => {
+  handleSubmit =  (e) => {
     e.preventDefault()
     console.log(this.state)
     var form_data = new FormData()

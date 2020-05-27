@@ -8,6 +8,7 @@ from datetime import datetime
 import time
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
+from google.auth.transport.requests import Request
 import httplib2
 import google_auth_httplib2
 # Create your views here.

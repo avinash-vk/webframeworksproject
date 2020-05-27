@@ -5,6 +5,7 @@ import sys
 
 
 def main():
+    #os.environ.setdeault('DJANGO_SETTINGS_MODULE','takecare.local.settings')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'takecare.settings')
     try:
         from django.core.management import execute_from_command_line
